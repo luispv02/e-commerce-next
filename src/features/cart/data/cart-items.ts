@@ -1,0 +1,120 @@
+import type { Cart } from "../types/cart";
+
+export const cart: Cart = {
+  id: "5ceb4c38-b2c3-4d5c-9045-814f933c6b07",
+  userId: "690ef60c-ccfc-46a3-87da-30d71e47b1be",
+  createdAt: "2026-05-21T19:31:14.815Z",
+  updatedAt: "2026-05-21T19:31:14.815Z",
+  items: [
+    {
+      id: "5fd491ea-6dfa-4ca0-903a-50757f21b5d6",
+      quantity: 1,
+      product: {
+        id: "57890fff-b9ca-4cfc-992e-5c79ae32fcf9",
+        title: "Botella térmica acero inoxidable",
+        price: 399,
+        description: "Mantiene bebidas frías o calientes por varias horas.",
+        slug: "botella-termica-acero-inoxidable",
+        stock: 34,
+        isFeatured: false,
+        category: "others",
+        images: [
+          {
+            id: "22de18ac-c3d5-4532-a435-d537535b5638",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743297/ecommerce/products/u46qah3kb8bqvsemqaae.jpg",
+            publicId: "ecommerce/products/u46qah3kb8bqvsemqaae",
+          },
+        ],
+        isActive: true,
+      },
+      stockAvailable: 33,
+    },
+    {
+      id: "adbb1a96-774c-450d-ae79-eebb855aceef",
+      quantity: 1,
+      variants: {
+        size: "s",
+        color: "white",
+      },
+      product: {
+        id: "fa5f7ca6-cd05-4253-9023-257a1786992c",
+        title: "Camisa de lino fresca",
+        price: 749,
+        description: "Camisa ligera de lino, ideal para climas cálidos.",
+        slug: "camisa-de-lino-fresca",
+        stock: 39,
+        isFeatured: false,
+        category: "clothes",
+        images: [
+          {
+            id: "11c97045-c3f2-467a-9ad6-862c84c4ee9d",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741987/ecommerce/products/borg9pfkqwylzbhrti4c.jpg",
+            publicId: "ecommerce/products/borg9pfkqwylzbhrti4c",
+          },
+        ],
+        isActive: true,
+        sizes: ["s", "m", "l"],
+        gender: "women",
+        colors: ["white"],
+        type: "shirts",
+      },
+      stockAvailable: 36,
+    },
+    {
+      id: "dc587fea-1aea-4227-9683-16629bcb6c12",
+      quantity: 1,
+      product: {
+        id: "87ab10c4-df68-4e84-84d8-ac6b0119f84f",
+        title: "Xiaomi Mi Band 8",
+        price: 999,
+        description: "Smartband con monitoreo de actividad y salud.",
+        slug: 'xiaomi-mi-band-8',
+        stock: 72,
+        isFeatured: false,
+        category: "technology",
+        images: [
+          {
+            id: "33848bd2-f4af-404f-9498-f2b0d0c21490",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767742773/ecommerce/products/tp3bbnudpcfa05qg2dpq.jpg",
+            publicId: "ecommerce/products/tp3bbnudpcfa05qg2dpq",
+          },
+        ],
+        isActive: true,
+        brand: "xiaomi",
+        type: "smartwatches",
+      },
+      stockAvailable: 71,
+    },
+    {
+      id: "59838955-6625-4bab-8e87-04fe4afe71eb",
+      quantity: 2,
+      variants: {
+        size: "l",
+        color: "white",
+      },
+      product: {
+        id: "fa5f7ca6-cd05-4253-9023-257a1786992c",
+        title: "Camisa de lino fresca",
+        price: 749,
+        description: "Camisa ligera de lino, ideal para climas cálidos.",
+        slug: "camisa-de-lino-fresca",
+        stock: 39,
+        isFeatured: false,
+        category: "clothes",
+        images: [
+          {
+            id: "11c97045-c3f2-467a-9ad6-862c84c4ee9d",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741987/ecommerce/products/borg9pfkqwylzbhrti4c.jpg",
+            publicId: "ecommerce/products/borg9pfkqwylzbhrti4c",
+          },
+        ],
+        isActive: true,
+        sizes: ["s", "m", "l"],
+        gender: "women",
+        colors: ["white"],
+        type: "shirts",
+      },
+      stockAvailable: 36,
+    },
+  ],
+};

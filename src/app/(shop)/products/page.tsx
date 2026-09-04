@@ -4,10 +4,11 @@ import { products } from "@/features/products/data/products";
 import { ProductGrid } from '@/features/products/components/ProductGrid';
 import { Pagination } from "@/components/ui/Pagination";
 import { MobileFilters } from "@/features/products/components/filters/MobileFilters";
+import { ProductsCategory } from "@/features/products/types/product";
 
 interface ProductsPageProps {
   searchParams: Promise<{
-    category?: string;
+    category?: ProductsCategory;
   }>;
 };
 

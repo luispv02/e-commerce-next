@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import { FiDroplet, FiMaximize2 } from "react-icons/fi";
 
-import type { ClothesProduct, SelectedVariants } from "../types/product";
-import { getProductFilterLabel, getProductFilterOption } from "../config/filters";
+import type { ClothesProduct, ProductVariant } from "../types/product";
+import { getProductFilterLabel, getProductFilterOption } from "@/lib/product-filters";
 
 interface ProductVariantSelectorProps {
   product: ClothesProduct;
-  value: SelectedVariants;
-  onChange: (variants: SelectedVariants) => void;
+  value: ProductVariant;
+  onChange: (variants: ProductVariant) => void;
 }
 
 export const ProductVariantSelector = ({ product, value, onChange }: ProductVariantSelectorProps) => {

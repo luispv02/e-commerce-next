@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
-import type { Product, SelectedVariants } from "../types/product";
+import type { Product, ProductVariant } from "../types/product";
 import { ProductActions } from "./ProductActions";
 import { ProductDetails } from "./ProductDetails";
 import { ProductGallery } from "./ProductGallery";
@@ -16,7 +16,7 @@ interface ProductDetailProps {
 
 export const ProductDetail = ({ product }: ProductDetailProps) => {
 
-  const [selectedVariants, setSelectedVariants] = useState<SelectedVariants>({});
+  const [selectedVariants, setSelectedVariants] = useState<ProductVariant>({});
 
   return (
     <div className="rounded-3xl bg-white py-4 md:p-8 lg:p-10">

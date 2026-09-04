@@ -6,9 +6,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { Filters } from "./Filters";
 import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoCloseSharp } from "react-icons/io5";
+import { ProductsCategory } from "../../types/product";
 
 interface MobileFiltersProps {
-  category: string;
+  category: ProductsCategory;
 }
 
 export const MobileFilters = ({ category }: MobileFiltersProps) => {

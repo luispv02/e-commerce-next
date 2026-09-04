@@ -1,4 +1,5 @@
 export type ProductCategory = "clothes" | "technology" | "others";
+export type ProductsCategory = ProductCategory | "all";
 
 export interface ProductImage {
   id: string;
@@ -44,7 +45,7 @@ export interface ProductResponse {
   product: Product;
 }
 
-export interface SelectedVariants {
+export interface ProductVariant {
   size?: string;
   color?: string;
 };

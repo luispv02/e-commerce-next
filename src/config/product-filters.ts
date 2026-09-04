@@ -1,5 +1,5 @@
-import type { ProductCategory } from "../types/product";
-import type { Filter, ProductFilterKey } from "../types/filters";
+import type { Filter } from "@/features/products/types/filters";
+
 
 export const clothesFilters: Filter[] = [
   {
@@ -83,29 +83,3 @@ export const technologyFilters: Filter[] = [
     ],
   },
 ];
-
-export const productFiltersByCategory: Partial<Record<ProductCategory, Filter[]>> = {
-  clothes: clothesFilters,
-  technology: technologyFilters,
-};
-
-export const getCategoryFilters = (category: ProductCategory) => {
-  return productFiltersByCategory[category] ?? [];
-}
-
-
-export const getProductFilter = (category: ProductCategory, filterKey: ProductFilterKey) => {
-  return getCategoryFilters(category).find((filter) => filter.filterKey === filterKey);
-}
-
-export const getProductFilterOption = (category: ProductCategory, filterKey: ProductFilterKey, value: string) => {
-  if (!value) {
-    return undefined;
-  }
-
-  return getProductFilter(category, filterKey)?.options.find((option) => option.id === value);
-};
-
-export const getProductFilterLabel = (category: ProductCategory, filterKey: ProductFilterKey, value: string) => {
-  return getProductFilterOption(category, filterKey, value)?.label ?? value;
-}

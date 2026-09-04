@@ -1,11 +1,11 @@
-import { getCategoryFilters } from "../../config/filters";
-import { ProductCategory } from "../../types/product";
+import { getCategoryFilters } from "@/lib/product-filters";
+import { ProductsCategory } from "../../types/product";
 import { CategoryFilters } from "./CategoryFilters";
 import { FiltersGeneral } from "./FiltersGeneral";
 import { FiltersGroup } from "./FiltersGroup";
 
 interface FiltersProps {
-  category: ProductCategory;
+  category: ProductsCategory;
 };
 
 export const Filters = ({ category }: FiltersProps) => {
