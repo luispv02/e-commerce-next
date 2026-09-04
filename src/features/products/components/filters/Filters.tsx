@@ -1,19 +1,15 @@
-import { clothesFilters, technologyFilters } from "../../config/filters";
+import { getCategoryFilters } from "../../config/filters";
+import { ProductCategory } from "../../types/product";
 import { CategoryFilters } from "./CategoryFilters";
 import { FiltersGeneral } from "./FiltersGeneral";
 import { FiltersGroup } from "./FiltersGroup";
 
 interface FiltersProps {
-  category: string;
+  category: ProductCategory;
 };
 
 export const Filters = ({ category }: FiltersProps) => {
-
-  const categoryFilters = category === "clothes"
-    ? clothesFilters
-    : category === "technology"
-      ? technologyFilters
-      : [];
+  const categoryFilters = getCategoryFilters(category);
 
   return (
     <aside className="rounded-xl border border-slate-200 bg-white p-4">

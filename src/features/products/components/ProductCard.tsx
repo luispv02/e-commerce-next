@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
 import type { Product } from "../types/product";
+import { getProductCategoryLabel } from "../config/categories";
+import { formatPrice } from "@/lib/format-price";
 
 interface ProductCardProps {
   product: Product;
@@ -11,36 +13,40 @@ interface ProductCardProps {
 
 
 export const ProductCard = ({ product, priority = false }: ProductCardProps) => {
+  const image = product.images[0];
+
   return (
     <article className="group relative flex min-h-80 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md sm:min-h-85">
 
-      <Link href={`/products/${product.id}`} className="block">
+      <Link href={`/products/${product.slug}`} className="block">
         <div className="relative mx-auto mt-5 aspect-4/3 w-full max-w-55 overflow-hidden">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            priority={priority}
-            sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 220px"
-            className="object-contain px-2 transition duration-300 group-hover:scale-105"
-          />
+          {image && (
+            <Image
+              src={image.url}
+              alt={product.title}
+              fill
+              priority={priority}
+              sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 220px"
+              className="object-contain px-2 transition duration-300 group-hover:scale-105"
+            />
+          )}
         </div>
       </Link>
 
       <div className="mt-10 flex flex-1 flex-col px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
         <Link href={`/products/${product.id}`}>
           <h3 className="line-clamp-2 text-xs font-bold leading-4 text-slate-950 sm:text-sm sm:leading-5">
-            {product.name}
+            {product.title}
           </h3>
         </Link>
 
         <p className="text-xs font-medium text-slate-500 mt-auto pt-2">
-          {product.category}
+          {getProductCategoryLabel(product.category)}
         </p>
 
         <div className="flex flex-wrap items-baseline gap-2 mt-2">
           <p className="text-base font-bold text-slate-950 sm:text-lg">
-            ${(product.price)}
+            {formatPrice(product.price)}
           </p>
         </div>
 

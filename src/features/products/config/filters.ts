@@ -1,4 +1,5 @@
-import { Filter } from "../types/filters";
+import type { ProductCategory } from "../types/product";
+import type { Filter, ProductFilterKey } from "../types/filters";
 
 export const clothesFilters: Filter[] = [
   {
@@ -27,7 +28,7 @@ export const clothesFilters: Filter[] = [
   {
     title: "Color",
     filterKey: "colors",
-     multiple: true,
+    multiple: true,
     options: [
       { id: "white", label: "Blanco", hex: "#FFFFFF" },
       { id: "black", label: "Negro", hex: "#000000" },
@@ -43,7 +44,7 @@ export const clothesFilters: Filter[] = [
   {
     title: "Tipo",
     filterKey: "type",
-     multiple: true,
+    multiple: true,
     options: [
       { id: "shirts", label: "Camisas" },
       { id: "t-shirts", label: "Playeras" },
@@ -57,7 +58,7 @@ export const technologyFilters: Filter[] = [
   {
     title: "Tipo de producto",
     filterKey: "type",
-     multiple: true,
+    multiple: true,
     options: [
       { id: "laptops", label: "Laptops" },
       { id: "smartphones", label: "Smartphones" },
@@ -70,7 +71,7 @@ export const technologyFilters: Filter[] = [
   {
     title: "Marca",
     filterKey: "brand",
-     multiple: true,
+    multiple: true,
     options: [
       { id: "apple", label: "Apple" },
       { id: "samsung", label: "Samsung" },
@@ -82,3 +83,29 @@ export const technologyFilters: Filter[] = [
     ],
   },
 ];
+
+export const productFiltersByCategory: Partial<Record<ProductCategory, Filter[]>> = {
+  clothes: clothesFilters,
+  technology: technologyFilters,
+};
+
+export const getCategoryFilters = (category: ProductCategory) => {
+  return productFiltersByCategory[category] ?? [];
+}
+
+
+export const getProductFilter = (category: ProductCategory, filterKey: ProductFilterKey) => {
+  return getCategoryFilters(category).find((filter) => filter.filterKey === filterKey);
+}
+
+export const getProductFilterOption = (category: ProductCategory, filterKey: ProductFilterKey, value: string) => {
+  if (!value) {
+    return undefined;
+  }
+
+  return getProductFilter(category, filterKey)?.options.find((option) => option.id === value);
+};
+
+export const getProductFilterLabel = (category: ProductCategory, filterKey: ProductFilterKey, value: string) => {
+  return getProductFilterOption(category, filterKey, value)?.label ?? value;
+}

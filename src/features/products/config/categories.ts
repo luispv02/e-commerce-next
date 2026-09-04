@@ -16,3 +16,7 @@ export const productCategories = [
     label: "Otros",
   },
 ] as const;
+
+export const getProductCategoryLabel = (category: string) => {
+  return productCategories.find((option) => option.id === category)?.label ?? category;
+}
