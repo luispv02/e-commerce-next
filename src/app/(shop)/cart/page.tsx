@@ -70,13 +70,13 @@ export default async function CartPage() {
             <CartSummary itemCount={itemCount} subtotal={subtotal} />
 
             <div className="mt-4 space-y-3 md:hidden">
-              <button
-                type="button"
+              <Link
+                href="/checkout"
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-slate-950 text-sm font-semibold text-white"
               >
                 <FiLock className="size-4" />
                 Finalizar compra
-              </button>
+              </Link>
             </div>
           </div>
         </div>

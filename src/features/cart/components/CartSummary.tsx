@@ -1,4 +1,5 @@
 import { formatPrice } from "@/lib/format-price";
+import Link from "next/link";
 import { FiLock } from "react-icons/fi";
 
 interface CartSummaryProps {
@@ -41,13 +42,13 @@ export const CartSummary = ({ itemCount, subtotal }: CartSummaryProps) => {
             </p>
           </div>
 
-          <button
-            type="button"
+          <Link
+            href="/checkout"
             className="mt-6 hidden h-12 w-full items-center justify-center gap-2 rounded-lg bg-slate-950 text-sm font-semibold text-white transition hover:bg-slate-800 md:inline-flex"
           >
             <FiLock className="size-4" />
             Finalizar compra
-          </button>
+          </Link>
         </div>
       </section>
     </div>
