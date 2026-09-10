@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
-import type { Product } from "../types/product";
+import type { Product } from "../../../types/product";
 import { getProductCategoryLabel } from "../config/categories";
 import { formatPrice } from "@/lib/format-price";
 

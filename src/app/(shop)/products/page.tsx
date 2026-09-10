@@ -1,10 +1,11 @@
 import { Filters } from "@/features/products/components/filters/Filters";
 import { ProductSort } from "@/features/products/components/ProductSort";
-import { products } from "@/features/products/data/products";
+import { productsResponse } from "@/mocks/products";
 import { ProductGrid } from '@/features/products/components/ProductGrid';
 import { Pagination } from "@/components/ui/Pagination";
 import { MobileFilters } from "@/features/products/components/filters/MobileFilters";
-import { ProductsCategory } from "@/features/products/types/product";
+import { ProductsCategory } from "@/types/product";
+import { Suspense } from "react";
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -16,6 +17,8 @@ export default async function ProductsPage({ searchParams, }: ProductsPageProps)
 
   const params = await searchParams;
   const category = params.category ?? "all";
+
+  const { products, pagination } = productsResponse.data;
 
   const categoryTitles = {
     all: "Todos los productos",
@@ -61,7 +64,10 @@ export default async function ProductsPage({ searchParams, }: ProductsPageProps)
           {/* Product grid */}
           <div className="mt-6">
             <ProductGrid products={products} />
-            <Pagination totalPages={20} />
+
+            <Suspense fallback={null}>
+              <Pagination totalPages={pagination.totalPages} />
+            </Suspense>
           </div>
         </div>
       </div>

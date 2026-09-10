@@ -1,4 +1,4 @@
-import { ProductImage, ProductVariant } from "@/features/products/types/product";
+import { ProductImage, ProductVariant } from "@/types/product";
 
 
 export interface Order {

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FiDroplet, FiMaximize2 } from "react-icons/fi";
 
-import type { ClothesProduct, ProductVariant } from "../types/product";
+import type { ClothesProduct, ProductVariant } from "../../../types/product";
 import { getProductFilterLabel, getProductFilterOption } from "@/lib/product-filters";
 
 interface ProductVariantSelectorProps {

@@ -1,6 +1,6 @@
 import { clothesFilters, technologyFilters } from "@/config/product-filters";
 import type { Filter, ProductFilterKey, } from "@/features/products/types/filters";
-import type { ProductCategory, ProductsCategory } from "@/features/products/types/product";
+import type { ProductCategory, ProductsCategory } from "@/types/product";
 
 export const productFiltersByCategory: Partial<Record<ProductsCategory, Filter[]>> = {
   clothes: clothesFilters,

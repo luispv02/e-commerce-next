@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
-import type { Product, ProductVariant } from "../types/product";
+import type { Product, ProductVariant } from "../../../types/product";
 import { ProductActions } from "./ProductActions";
 import { ProductDetails } from "./ProductDetails";
 import { ProductGallery } from "./ProductGallery";

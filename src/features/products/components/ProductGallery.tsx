@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import useEmblaCarousel from "embla-carousel-react";
 
-import type { Product } from "../types/product";
+import type { Product } from "../../../types/product";
 
 interface ProductGalleryProps {
   product: Product;
@@ -87,14 +87,10 @@ export const ProductGallery = ({ product }: ProductGalleryProps) => {
               >
                 <Image
                   src={image.url}
-                  alt={
-                    index === 0
-                      ? product.title
-                      : `${product.title} imagen ${index + 1}`
-                  }
+                  alt={index === 0 ? product.title : `${product.title} imagen ${index + 1}`}
                   fill
                   priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 48vw, 640px"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 700px"
                   className="object-contain"
                 />
               </div>

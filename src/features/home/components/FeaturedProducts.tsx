@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { products } from "@/features/products/data/products";
 import { getProductCategoryLabel } from "@/features/products/config/categories";
 import { formatPrice } from "@/lib/format-price";
+import { productsResponse } from "@/mocks/products";
 
 export function FeaturedProducts() {
   return (
@@ -15,7 +15,7 @@ export function FeaturedProducts() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {products.map((product) => {
+        {productsResponse.data.products.map((product) => {
           const image = product.images[0];
 
           return (

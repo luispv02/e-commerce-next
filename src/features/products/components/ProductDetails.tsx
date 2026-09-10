@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import clsx from "clsx";
 import { FiCpu, FiInfo, FiTag, FiUser } from "react-icons/fi";
 
-import type { Product } from "../types/product";
+import type { Product } from "../../../types/product";
 import { getProductFilterLabel } from "@/lib/product-filters";
 import { formatPrice } from "@/lib/format-price";
 
