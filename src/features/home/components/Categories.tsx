@@ -5,22 +5,21 @@ const categories = [
   {
     name: "Ropa",
     productCount: 120,
-    slug: "ropa",
+    slug: "clothes",
     image: "/images/categories/clothes.png",
   },
   {
     name: "Tecnología",
     productCount: 85,
-    slug: "tecnologia",
+    slug: "technology",
     image: "/images/categories/tech.png",
   },
   {
     name: "Otros",
     productCount: 64,
-    slug: "accesorios",
+    slug: "others",
     image: "/images/categories/others.png",
-  },
-
+  }
 ];
 
 export const PopularCategories = () => {
@@ -36,7 +35,7 @@ export const PopularCategories = () => {
         {categories.map((category) => (
           <Link
             key={category.slug}
-            href={`/categories/${category.slug}`}
+            href={`/products?category=${category.slug}`}
             className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:border-slate-300 hover:shadow-sm"
           >
             <div className="relative aspect-4/3 overflow-hidden bg-slate-50">
