@@ -1,6 +1,6 @@
 import { Pagination } from "@/components/ui/Pagination";
-import { ProductsHeader } from "@/features/admin/products/components/ProductsHeader";
-import { ProductsTable } from "@/features/admin/products/components/ProductsTable";
+import { ProductsHeader } from "@/features/admin/products/components/list/ProductsHeader";
+import { ProductsTable } from "@/features/admin/products/components/list/ProductsTable";
 import { productsResponse } from "@/mocks/products";
 import { Suspense } from "react";
 

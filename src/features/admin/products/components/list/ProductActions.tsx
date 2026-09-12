@@ -1,15 +1,20 @@
+import Link from "next/link";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
-export const ProductActions = () => {
+interface ProductActionsProps {
+  slug: string;
+}
+
+export const ProductActions = ({ slug }: ProductActionsProps) => {
   return (
     <div className="flex items- justify-end gap-2">
-      <button
-        type="button"
+      <Link
+        href={`/admin/products/${slug}/edit`}
         aria-label="Editar producto"
         className="cursor-pointer inline-flex size-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition hover:bg-blue-100"
       >
         <FiEdit2 className="size-3.5" />
-      </button>
+      </Link>
 
       <button
         type="button"

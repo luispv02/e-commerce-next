@@ -32,7 +32,6 @@ export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
       <nav className="flex-1 space-y-1 px-3">
         {navigation.map((item) => {
           const isActive = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href);
-          console.log('isActive', isActive)
           const Icon = item.icon;
 
           return (

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
-import { loginSchema, type LoginFormValues } from "../schemas/login.schema";
+import { loginSchema, type LoginFormValues } from "../schemas/login";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
