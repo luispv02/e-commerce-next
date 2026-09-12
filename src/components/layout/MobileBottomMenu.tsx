@@ -23,7 +23,7 @@ const navigation = [
   },
   {
     label: "Perfil",
-    href: "/account",
+    href: "/admin",
     icon: FiUser,
   },
 ];
@@ -32,7 +32,7 @@ export const MobileBottomMenu = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] md:hidden">
       <div className="mx-auto flex h-16 max-w-md items-center justify-around">
         {navigation.map(({ label, href, icon: Icon }) => {
           const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);

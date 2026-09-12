@@ -50,7 +50,7 @@ export const Header = () => {
               </Link>
 
               <Link
-                href="/account"
+                href="/admin"
                 aria-label="Perfil"
                 className="text-slate-700 transition hover:text-slate-950"
               >
