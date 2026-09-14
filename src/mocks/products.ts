@@ -92,31 +92,37 @@ export const productsResponse: ProductsListResponse = {
         "slug": "pantalon-de-mezclilla-recto"
       },
       {
-        "id": "c974e178-93f6-484e-8f86-d7dcb7891e0e",
-        "title": "Camisa formal blanca",
-        "price": 599,
-        "description": "Camisa formal de tela ligera, ideal para oficina o eventos.",
-        "stock": 77,
-        "category": "clothes",
-        "images": [
+        id: "57890fff-b9ca-4cfc-992e-5c79ae32fcf9",
+        title: "Botella térmica acero inoxidable",
+        price: 399,
+        description: "Mantiene bebidas frías o calientes por varias horas.",
+        slug: "botella-termica-acero-inoxidable",
+        stock: 34,
+        isFeatured: false,
+        category: "others",
+        isActive: true,
+        images: [
           {
-            "id": "3fecf983-af92-4a8a-9512-b4936431a719",
-            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741555/ecommerce/products/nlwd7haknnm1ixkcyffx.jpg",
-            "publicId": "ecommerce/products/nlwd7haknnm1ixkcyffx"
+            id: "22de18ac-c3d5-4532-a435-d537535b5638",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743297/ecommerce/products/u46qah3kb8bqvsemqaae.jpg",
+            publicId: "ecommerce/products/u46qah3kb8bqvsemqaae",
           },
           {
-            "id": "e2439e3d-44c3-46eb-810d-054ec1d30b4c",
-            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741555/ecommerce/products/kqeh1ya53zqp6dqersew.jpg",
-            "publicId": "ecommerce/products/kqeh1ya53zqp6dqersew"
-          }
+            id: "416f7eca-ef78-459b-9e72-8a7dffeaa936",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743297/ecommerce/products/izy221gvndablpf3g5vy.jpg",
+            publicId: "ecommerce/products/izy221gvndablpf3g5vy",
+          },
+          {
+            id: "77834c1b-91f0-41a9-bb3a-511b9c8e8f2e",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743297/ecommerce/products/dqajpzdaniezycxjs1jz.jpg",
+            publicId: "ecommerce/products/dqajpzdaniezycxjs1jz",
+          },
+          {
+            id: "bab9eec4-2aa9-402b-b07b-2dd246cab884",
+            url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743297/ecommerce/products/koydodz4gc7cxwd1sjkv.jpg",
+            publicId: "ecommerce/products/koydodz4gc7cxwd1sjkv",
+          },
         ],
-        "isActive": true,
-        "sizes": ["m", "l", "xl"],
-        "gender": "men",
-        "colors": ["white"],
-        "type": "shirts",
-        "isFeatured": false,
-        "slug": "camisa-formal-blanca"
       },
       {
         "id": "4cc6abde-cc89-4d48-8dd8-264ee750f82b",
@@ -188,36 +194,37 @@ export const productsResponse: ProductsListResponse = {
         "slug": "camisa-de-lino-fresca"
       },
       {
-        "id": "95503950-3cf6-4bb6-9b06-cfb5eea2e810",
-        "title": "Pantalón infantil cómodo",
-        "price": 349,
-        "description": "Pantalón suave y resistente para uso diario infantil.",
-        "stock": 60,
-        "category": "clothes",
+        "id": "ad1772db-1325-431e-b30b-53168c3f2e74",
+        "title": "Lámpara LED de escritorio",
+        "price": 549,
+        "description": "Lámpara con luz ajustable y diseño moderno.",
+        "slug": "lampara-led-de-escritorio",
+        "stock": 58,
+        "isFeatured": false,
+        "category": "others",
+        "isActive": true,
         "images": [
           {
-            "id": "86b818db-24ae-434e-bfcc-75f5a0f6efdb",
-            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767742054/ecommerce/products/doujgfuujmdxtq7eafnc.jpg",
-            "publicId": "ecommerce/products/doujgfuujmdxtq7eafnc"
+            "id": "289afc5f-d7de-4f49-8b18-90715347b326",
+            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743327/ecommerce/products/vcr1kkj6nyhgumczn3by.jpg",
+            "publicId": "ecommerce/products/vcr1kkj6nyhgumczn3by",
           },
           {
-            "id": "9274ceda-de82-4d91-8c4d-5bb66c27c639",
-            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767742054/ecommerce/products/zh52xu8iupeqekxfl8mj.jpg",
-            "publicId": "ecommerce/products/zh52xu8iupeqekxfl8mj"
+            "id": "92a0cc2d-a4c2-489d-8462-9d599ddbb7aa",
+            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743327/ecommerce/products/p0gw3dyucvufcsbuwtjo.jpg",
+            "publicId": "ecommerce/products/p0gw3dyucvufcsbuwtjo",
           },
           {
-            "id": "dcc84cdf-bcfb-4ad8-ba00-311774043155",
-            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767742054/ecommerce/products/zmcvxotncibqsgx4ss99.jpg",
-            "publicId": "ecommerce/products/zmcvxotncibqsgx4ss99"
-          }
+            "id": "a1c242c8-ad67-4406-9ca1-905b49660ae1",
+            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743326/ecommerce/products/lszwwexjeddzmrvk7rh5.jpg",
+            "publicId": "ecommerce/products/lszwwexjeddzmrvk7rh5",
+          },
+          {
+            "id": "f0f8bb0c-5b8a-4104-b0c4-e0785c8b331e",
+            "url": "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767743326/ecommerce/products/kkufr4zfpxegruvvblha.jpg",
+            "publicId": "ecommerce/products/kkufr4zfpxegruvvblha",
+          },
         ],
-        "isActive": true,
-        "sizes": ["xs", "s"],
-        "gender": "kid",
-        "colors": ["blue", "gray"],
-        "type": "pants",
-        "isFeatured": false,
-        "slug": "pantalon-infantil-comodo"
       },
       {
         "id": "9dd8048f-a67f-4c9f-85f6-5b6b6b9dbd72",
