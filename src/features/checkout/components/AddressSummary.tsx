@@ -17,7 +17,7 @@ export const AddressSummary = ({ address, onEdit }: AddressSummaryProps) => {
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-xl font-bold tracking-tight text-slate-950">
                 Dirección de envío
@@ -34,7 +34,7 @@ export const AddressSummary = ({ address, onEdit }: AddressSummaryProps) => {
             </button>
           </div>
 
-          <address className="not-italic text-sm leading-[1.6] text-[#29477b]">
+          <address className="not-italic text-sm leading-[1.6] text-[#29477b] mt-4">
             <strong className="block font-semibold text-slate-950">
               {address.fullName}
             </strong>

@@ -31,28 +31,35 @@ export const ProductReviewList = ({ items, itemCount }: ProductReviewListProps) 
           const size = item.variants?.size ? getProductFilterLabel(product.category, "sizes", item.variants.size) : null;
 
           return (
-            <article key={id} className="grid gap-3 py-3 sm:grid-cols-[64px_minmax(0,1fr)_96px_116px_96px] sm:items-center">
-              <div className="relative size-16 overflow-hidden rounded-md">
+            <article key={id} className="grid gap-4 grid-cols-[auto_1fr] py-3">
+              <div className="relative size-18 overflow-hidden rounded-md">
                 <Image
                   src={product.images[0]?.url ?? "/window.svg"}
                   alt={product.title}
                   fill
-                  sizes="64px"
+                  sizes="96px"
                   className="object-contain"
                 />
               </div>
 
-              <CartItemInfo title={product.title} color={color} size={size} inStock={false} />
+              <div className="grid md:grid-cols-3 items-center space-y-1">
+                <div>
+                  <CartItemInfo title={product.title} color={color} size={size} inStock={false} />
+                </div>
 
-              <p className="text-sm font-semibold text-slate-950 sm:text-right">
-                {formatPrice(product.price)}
-              </p>
-              <p className="text-sm text-[#29477b] sm:text-center">
-                Cantidad: {quantity}
-              </p>
-              <p className="text-sm font-semibold text-slate-950 sm:text-right">
-                {formatPrice(subtotal)}
-              </p>
+                <p className="text-sm font-semibold text-slate-950 sm:text-right">
+                  {formatPrice(product.price)}
+                </p>
+
+                <div className="grid grid-cols-[1fr_1fr]">
+                  <p className="text-sm text-[#29477b] sm:text-center">
+                    Cantidad: {quantity}
+                  </p>
+                  <p className="text-sm font-semibold text-slate-950 text-right">
+                    {formatPrice(subtotal)}
+                  </p>
+                </div>
+              </div>
             </article>
           );
         })}
