@@ -33,7 +33,8 @@ export interface ProductFilters {
   type?: string[];
   brand?: string[];
   sort?: ProductSort;
-  page: number;
+  page?: number;
+  featured?: boolean;
 }
 
 export interface ProductSearchParams {

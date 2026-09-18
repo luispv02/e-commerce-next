@@ -3,9 +3,22 @@ import Link from "next/link";
 
 import { getProductCategoryLabel } from "@/features/products/config/categories";
 import { formatPrice } from "@/lib/format-price";
-import { productsResponse } from "@/mocks/products";
+import { getProducts } from "@/features/products/services/product.service";
 
-export function FeaturedProducts() {
+export const FeaturedProducts = async () => {
+
+  const response = await getProducts({
+    filters: {
+      featured: true,
+    },
+  });
+
+  const products = response.data.products;
+
+  if (products.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-10">
       <div className="mb-5 flex items-center justify-between">
@@ -15,12 +28,13 @@ export function FeaturedProducts() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {productsResponse.data.products.map((product) => {
+        {products.map((product) => {
           const image = product.images[0];
 
           return (
-            <article key={product.id} className="group overflow-hidden rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-              <Link href={`/products/${product.slug}`}>
+            <Link key={product.id} href={`/products/${product.slug}`} className="group block overflow-hidden rounded-xl border border-slate-200 bg-white">
+              <article className="flex h-full flex-col justify-between">
+
                 <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={image.url}
@@ -30,24 +44,22 @@ export function FeaturedProducts() {
                     className="object-contain p-2 transition duration-300 group-hover:scale-105"
                   />
                 </div>
-              </Link>
 
-              <div className="p-4">
-                <p className="text-xs text-slate-500">
-                  {getProductCategoryLabel(product.category)}
-                </p>
+                <div className="p-4">
+                  <p className="text-xs text-slate-500">
+                    {getProductCategoryLabel(product.category)}
+                  </p>
 
-                <Link href={`/products/${product.id}`}>
                   <h3 className="mt-1 line-clamp-2 text-sm font-semibold text-slate-950">
                     {product.title}
                   </h3>
-                </Link>
 
-                <p className="mt-2 text-lg font-bold text-slate-950">
-                  {formatPrice(product.price)}
-                </p>
-              </div>
-            </article>
+                  <p className="mt-2 text-lg font-bold text-slate-950">
+                    {formatPrice(product.price)}
+                  </p>
+                </div>
+              </article>
+            </Link>
           );
         })}
       </div>
