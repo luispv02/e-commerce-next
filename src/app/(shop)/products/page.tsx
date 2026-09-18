@@ -52,7 +52,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               </h1>
 
               <p className="mt-2 text-sm text-slate-500">
-                120 resultados
+                {pagination.totalProducts} resultados
               </p>
             </div>
 

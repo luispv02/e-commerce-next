@@ -35,3 +35,16 @@ export interface ProductFilters {
   sort?: ProductSort;
   page: number;
 }
+
+export interface ProductSearchParams {
+  search?: string | string[];
+  category?: string | string[];
+  price?: string | string[];
+  sizes?: string | string[];
+  gender?: string | string[];
+  colors?: string | string[];
+  type?: string | string[];
+  brand?: string | string[];
+  sort?: string | string[];
+  page?: string | string[];
+}

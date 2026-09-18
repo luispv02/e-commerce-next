@@ -1,6 +1,6 @@
 
 import type { ProductsCategory } from "@/types/product";
-import type { ProductFilterKey, ProductFilters, ProductSort } from "../types/filters";
+import type { ProductFilterKey, ProductFilters, ProductSearchParams, ProductSort } from "../types/filters";
 import { ProductGender, ProductSize } from "../../../../generated/prisma/enums";
 import { productCategories } from "../config/categories";
 import { getProductFilter } from "@/lib/product-filter-config";
@@ -73,7 +73,7 @@ const getValidFilterValues = (category: ProductsCategory, filterKey: ProductFilt
   return values.filter((value) => filter.options.some((option) => option.id === value));
 };
 
-export const parseProductSearchParams = (params: Record<string, string | string[] | undefined>): ProductFilters => {
+export const parseProductSearchParams = (params: ProductSearchParams): ProductFilters => {
   const searchParam = Array.isArray(params.search) ? params.search[0] : params.search;
   const categoryParam = Array.isArray(params.category) ? params.category[0] : params.category;
 
