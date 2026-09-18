@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FiShoppingCart } from "react-icons/fi";
 import type { CartItem } from "@/features/cart/types/cart";
 import { formatPrice } from "@/lib/format-price";
-import { getProductFilterLabel } from "@/lib/product-filters";
+import { getProductFilterLabel } from "@/lib/product-filter-config";
 import { CartItemInfo } from "@/features/cart/components/CartItemInfo";
 
 interface ProductReviewListProps {

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { FiCpu, FiInfo, FiTag, FiUser } from "react-icons/fi";
 
 import type { Product } from "../../../types/product";
-import { getProductFilterLabel } from "@/lib/product-filters";
+import { getProductFilterLabel } from "@/lib/product-filter-config";
 import { formatPrice } from "@/lib/format-price";
 
 interface ProductDetailsProps {

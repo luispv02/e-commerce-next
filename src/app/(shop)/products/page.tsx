@@ -1,11 +1,12 @@
 import { Filters } from "@/features/products/components/filters/Filters";
 import { ProductSort } from "@/features/products/components/ProductSort";
-import { productsResponse } from "@/mocks/products";
 import { ProductGrid } from '@/features/products/components/ProductGrid';
 import { Pagination } from "@/components/ui/Pagination";
 import { MobileFilters } from "@/features/products/components/filters/MobileFilters";
 import { ProductsCategory } from "@/types/product";
-import { Suspense } from "react";
+import { getProducts } from "@/features/products/services/product.service";
+import { parseProductSearchParams } from "@/features/products/lib/parse-product-search-params";
+import { EmptyProducts } from "@/features/products/components/EmptyProducts";
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -13,12 +14,15 @@ interface ProductsPageProps {
   }>;
 };
 
-export default async function ProductsPage({ searchParams, }: ProductsPageProps) {
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
 
   const params = await searchParams;
+  
   const category = params.category ?? "all";
+  const filters = parseProductSearchParams(params);
 
-  const { products, pagination } = productsResponse.data;
+  const productResponse = await getProducts({ filters });
+  const { products, pagination } = productResponse.data;
 
   const categoryTitles = {
     all: "Todos los productos",
@@ -63,11 +67,14 @@ export default async function ProductsPage({ searchParams, }: ProductsPageProps)
 
           {/* Product grid */}
           <div className="mt-6">
-            <ProductGrid products={products} />
-
-            <Suspense fallback={null}>
-              <Pagination totalPages={pagination.totalPages} />
-            </Suspense>
+            {products.length === 0 ? (
+              <EmptyProducts />
+            ) : (
+              <>
+                <ProductGrid products={products} />
+                <Pagination totalPages={pagination.totalPages} />
+              </>
+            )}
           </div>
         </div>
       </div>

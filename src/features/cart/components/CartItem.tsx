@@ -4,7 +4,7 @@ import { FiTrash2 } from "react-icons/fi";
 import type { CartItem as CartItemType } from "../types/cart";
 import { QuantitySelector } from "./QuantitySelector";
 import { CartItemInfo } from "./CartItemInfo";
-import { getProductFilterLabel } from "@/lib/product-filters";
+import { getProductFilterLabel } from "@/lib/product-filter-config";
 
 interface CartItemProps {
   item: CartItemType;

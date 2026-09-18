@@ -1,22 +1,24 @@
 "use client";
 
 import clsx from "clsx";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { Filter } from "../../types/filters";
+import type { ProductFilterConfig } from "../../types/filters";
+import { useFilterUpdater } from "../../hooks/useFilterUpdater";
 
 interface FiltersGroupProps {
-  filter: Filter;
+  filter: ProductFilterConfig;
+  mode?: "desktop" | "mobile";
+  draftParams?: URLSearchParams;
+  onDraftChange?: (params: URLSearchParams) => void;
 }
 
-export const FiltersGroup = ({ filter }: FiltersGroupProps) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export const FiltersGroup = ({ filter, mode = "desktop", draftParams, onDraftChange }: FiltersGroupProps) => {
 
-  const currentValues = searchParams.get(filter.filterKey)?.split(",") ?? [];
+  const { params, updateParams } = useFilterUpdater({ mode, draftParams, onDraftChange });
+
+  const currentValues = params.get(filter.filterKey)?.split(",") ?? [];
 
   const handleToggle = (optionId: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(params.toString());
     const isSelected = currentValues.includes(optionId);
 
     if (filter.multiple) {
@@ -25,20 +27,20 @@ export const FiltersGroup = ({ filter }: FiltersGroupProps) => {
         : [...currentValues, optionId];
 
       if (newValues.length > 0) {
-        params.set(filter.filterKey, newValues.join(","));
+        newParams.set(filter.filterKey, newValues.join(","));
       } else {
-        params.delete(filter.filterKey);
+        newParams.delete(filter.filterKey);
       }
     } else {
       if (isSelected) {
-        params.delete(filter.filterKey);
+        newParams.delete(filter.filterKey);
       } else {
-        params.set(filter.filterKey, optionId);
+        newParams.set(filter.filterKey, optionId);
       }
     }
 
-    params.set("page", "1")
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    newParams.set("page", "1")
+    updateParams(newParams);
   };
 
   return (

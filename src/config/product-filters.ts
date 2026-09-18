@@ -1,7 +1,7 @@
-import type { Filter } from "@/features/products/types/filters";
+import type { ProductFilterConfig } from "@/features/products/types/filters";
 
 
-export const clothesFilters: Filter[] = [
+export const clothesFilters: ProductFilterConfig[] = [
   {
     title: "Talla",
     filterKey: "sizes",
@@ -54,7 +54,7 @@ export const clothesFilters: Filter[] = [
   },
 ];
 
-export const technologyFilters: Filter[] = [
+export const technologyFilters: ProductFilterConfig[] = [
   {
     title: "Tipo de producto",
     filterKey: "type",

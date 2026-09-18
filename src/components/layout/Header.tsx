@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi"
+import { ProductSearch } from "./ProductSearch"
+import { Suspense } from "react"
 
 
 export const Header = () => {
@@ -27,17 +29,9 @@ export const Header = () => {
 
           {/* Search + Actions */}
           <div className="hidden items-center justify-self-end gap-5 md:flex">
-            
-            {/* Search */}
-            <div className="relative w-full max-w-sm">
-              <FiSearch className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
-
-              <input
-                type="search"
-                placeholder="Buscar productos"
-                className="h-10 w-80 rounded-full border border-slate-200 bg-white pl-10 pr-4 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400"
-              />
-            </div>
+            <Suspense fallback={null}>
+              <ProductSearch />
+            </Suspense>
 
             {/* Actions */}
             <div className="flex items-center gap-4">

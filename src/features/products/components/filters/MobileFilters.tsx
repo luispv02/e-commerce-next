@@ -7,13 +7,26 @@ import { Filters } from "./Filters";
 import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoCloseSharp } from "react-icons/io5";
 import { ProductsCategory } from "../../../../types/product";
+import { useSearchParams } from "next/navigation";
+import { useFilterUpdater } from "../../hooks/useFilterUpdater";
 
 interface MobileFiltersProps {
   category: ProductsCategory;
 }
 
 export const MobileFilters = ({ category }: MobileFiltersProps) => {
+
+  const searchParams = useSearchParams();
+  const { updateParams } = useFilterUpdater({ mode: "desktop" });
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const [draftParams, setDraftParams] = useState(() => new URLSearchParams(searchParams.toString()));
+
+  const handleOpen = () => {
+    setDraftParams(new URLSearchParams(searchParams.toString()));
+    setIsOpen(true);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -25,11 +38,17 @@ export const MobileFilters = ({ category }: MobileFiltersProps) => {
     };
   }, [isOpen]);
 
+  const handleApplyFilters = () => {
+    updateParams(new URLSearchParams(draftParams.toString()));
+    setIsOpen(false);
+  };
+
+
   return (
     <>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 py-2 px-4"
       >
         <LuSlidersHorizontal className="size-4" />
@@ -74,11 +93,16 @@ export const MobileFilters = ({ category }: MobileFiltersProps) => {
                 </button>
               </div>
 
-              <Filters category={category} />
+              <Filters
+                category={category}
+                mode="mobile"
+                draftParams={draftParams}
+                onDraftChange={setDraftParams}
+              />
 
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
+                onClick={handleApplyFilters}
                 className="mt-6 w-full rounded-lg bg-slate-950 px-4 py-3 text-sm font-medium text-white cursor-pointer hover:bg-black/90"
               >
                 Aplicar filtros

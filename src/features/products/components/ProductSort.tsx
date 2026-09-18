@@ -9,10 +9,9 @@ export const ProductSort = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentOrder = searchParams.get("order");
-
-  const desktopOrder = currentOrder ?? "any";
-  const mobileOrder = currentOrder ?? "";
+  const currentSort = searchParams.get("sort");
+  const desktopSort = currentSort ?? "any";
+  const mobileSort = currentSort ?? "";
 
   const sortOptions = [
     { value: "any", label: "Por defecto" },
@@ -22,13 +21,13 @@ export const ProductSort = () => {
     { value: "oldest", label: "Más antiguos" },
   ];
 
-  const handleSortChange = (order: string) => {
+  const handleSortChange = (sort: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (!order) {
-      params.delete("order");
+    if (!sort) {
+      params.delete("sort");
     } else {
-      params.set("order", order);
+      params.set("sort", sort);
     }
 
     params.set("page", "1");
@@ -42,15 +41,15 @@ export const ProductSort = () => {
       </label>
 
       {/* Mobile Select */}
-      <div className="relative md:hidden flex items-center justify-evenly rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 py-2 px-3">
+      <div className="relative md:hidden flex items-center justify-evenly rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 py-2 pl-3 md:px-3">
         <BiSortAlt2 className="size-4 text-slate-600"/>
 
         <select
           id="product-sort-mobile"
           aria-label="Ordenar productos"
-          value={mobileOrder}
+          value={mobileSort}
           onChange={(event) => handleSortChange(event.target.value)}
-          className="appearance-none bg-transparent text-sm font-medium text-slate-700 outline-none text-center px-2"
+          className="appearance-none bg-transparent text-sm font-medium text-slate-700 outline-none text-center px-2 pr-4"
         >
           <option value="" disabled>
             Ordenar por
@@ -62,15 +61,13 @@ export const ProductSort = () => {
             </option>
           ))}
         </select>
-
-        <FiChevronDown className="size-4 text-slate-600" />
       </div>
 
       {/* Desktop Select */}
       <div className="relative hidden md:block">
         <select
           id="product-sort-desktop"
-          value={desktopOrder}
+          value={desktopSort}
           onChange={(event) => handleSortChange(event.target.value)}
           className="h-10 appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-3 pr-9 text-sm font-medium text-slate-700 outline-none transition focus:border-slate-400"
         >

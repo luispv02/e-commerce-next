@@ -1,37 +1,62 @@
 "use client";
 
-import type { FormEvent } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { ChangeEvent, FormEvent } from "react";
+import { useFilterUpdater } from "../../hooks/useFilterUpdater";
 
-export const FiltersGeneral = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+interface FiltersGeneralProps {
+  mode?: "desktop" | "mobile";
+  draftParams?: URLSearchParams;
+  onDraftChange?: (params: URLSearchParams) => void;
+}
 
-  const currentPrice = searchParams.get("price") ?? "";
+export const FiltersGeneral = ({ mode = "desktop", draftParams, onDraftChange }: FiltersGeneralProps) => {
+  const { params, updateParams } = useFilterUpdater({ mode, draftParams, onDraftChange });
+
+  const currentPrice = params.get("price") ?? "";
   const [min = "", max = ""] = currentPrice.split("-");
-  
+
+  const applyPrice = (minValue: string, maxValue: string) => {
+    const newParams = new URLSearchParams(params.toString());
+
+    if (minValue || maxValue) {
+      newParams.set("price", `${minValue}-${maxValue}`);
+    } else {
+      newParams.delete("price");
+    }
+
+    newParams.set("page", "1");
+    updateParams(newParams);
+  };
+
+  const getFormValues = (form: HTMLFormElement) => {
+    const formData = new FormData(form);
+    return {
+      min: String(formData.get("minPrice") ?? ""),
+      max: String(formData.get("maxPrice") ?? ""),
+    };
+  };
+
+  const handlePriceChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (mode !== "mobile") return;
+
+    const form = event.currentTarget.form;
+    if (!form) return;
+
+    const { min, max } = getFormValues(form);
+    applyPrice(min, max);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const min = String(formData.get("minPrice") ?? "");
-    const max = String(formData.get("maxPrice") ?? "");
+    if (mode === "mobile") return;
 
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (min || max) {
-      params.set("price", `${min}-${max}`);
-    } else {
-      params.delete("price");
-    }
-
-    params.set("page", "1");
-    router.push(`${pathname}?${params.toString()}`);
+    const { min, max } = getFormValues(event.currentTarget);
+    applyPrice(min, max);
   };
 
   return (
-    <form key={currentPrice} onSubmit={handleSubmit} className="mt-6 border-t border-slate-100 pt-6">
+    <form key={mode === "desktop" ? currentPrice : undefined} onSubmit={handleSubmit} className="mt-6 border-t border-slate-100 pt-6">
       <h3 className="text-sm font-semibold text-slate-950">
         Rango de precio
       </h3>
@@ -44,6 +69,7 @@ export const FiltersGeneral = () => {
           min="0"
           inputMode="numeric"
           defaultValue={min}
+          onChange={handlePriceChange}
           className="h-9 w-full rounded-md border border-slate-200 px-3 text-sm outline-none"
         />
 
@@ -56,6 +82,7 @@ export const FiltersGeneral = () => {
           min="0"
           inputMode="numeric"
           defaultValue={max}
+          onChange={handlePriceChange}
           className="h-9 w-full rounded-md border border-slate-200 px-3 text-sm outline-none"
         />
       </div>

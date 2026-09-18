@@ -1,7 +1,7 @@
 import { formatPrice } from "@/lib/format-price";
 import Image from "next/image";
 import type { OrderItem as OrderItemType } from "../types/orders";
-import { getProductFilterLabel } from "@/lib/product-filters";;
+import { getProductFilterLabel } from "@/lib/product-filter-config";
 
 interface OrderItemProps {
   item: OrderItemType;
