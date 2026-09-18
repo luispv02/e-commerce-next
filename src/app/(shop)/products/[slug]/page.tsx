@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { ProductDetail } from "@/features/products/components/ProductDetail";
-import type { ProductResponse } from "@/types/product";
-import { productsResponse } from "@/mocks/products";
+import { getProductBySlug } from "@/features/products/services/product.service";
 
 interface ProductPageProps {
   params: Promise<{
@@ -13,17 +12,10 @@ interface ProductPageProps {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
 
-  const product = productsResponse.data.products.find((item) => item.slug === slug);
+  const response = await getProductBySlug(slug);
 
-  if (!product) {
+  if (!response) {
     notFound();
   }
-
-  const response: ProductResponse = {
-    ok: true,
-    product,
-  };
-
-
   return <ProductDetail product={response.product} />;
 }

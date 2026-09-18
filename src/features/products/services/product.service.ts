@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { ProductsListResponse } from "@/types/product-api";
+import type { ProductResponse, ProductsListResponse } from "@/types/product-api";
 import { mapProduct } from "../mappers/product.mapper";
 import type { ProductFilters } from "../types/filters";
 import { getProductFilters } from "@/lib/product-filter-query";
@@ -51,4 +51,32 @@ export const getProducts = async ({ filters }: GetProductsParams): Promise<Produ
       products: products.map(mapProduct),
     }
   }
+}
+
+export const getProductBySlug = async (slug: string): Promise<ProductResponse | null> => {
+
+  const product = await prisma.product.findFirst({
+    where: {
+      slug,
+      isActive: true,
+    },
+    include: {
+      images: {
+        select: {
+          id: true,
+          publicId: true,
+          url: true,
+        },
+      },
+    },
+  });
+
+  if (!product) {
+    return null;
+  }
+
+  return {
+    ok: true,
+    product: mapProduct(product),
+  };
 }
