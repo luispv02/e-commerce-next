@@ -40,7 +40,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
       disabled={currentPage === 1}
       onClick={() => handlePageChange(currentPage - 1)}
       aria-label="Página anterior"
-      className={clsx("flex size-9 items-center justify-center rounded-lg border transition", currentPage === 1
+      className={clsx("flex size-9 items-center justify-center rounded-lg border transition mr-2", currentPage === 1
         ? "cursor-not-allowed border-slate-200 text-slate-300"
         : "border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-950 cursor-pointer"
       )}
@@ -55,7 +55,7 @@ export const Pagination = ({ totalPages }: PaginationProps) => {
       disabled={currentPage === totalPages}
       onClick={() => handlePageChange(currentPage + 1)}
       aria-label="Página siguiente"
-      className={clsx("flex size-9 items-center justify-center rounded-lg border transition", currentPage === totalPages
+      className={clsx("flex size-9 items-center justify-center rounded-lg border transition ml-2", currentPage === totalPages
         ? "cursor-not-allowed border-slate-200 text-slate-300"
         : "border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-950 cursor-pointer"
       )}

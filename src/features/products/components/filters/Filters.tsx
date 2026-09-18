@@ -15,7 +15,7 @@ export const Filters = ({ category, mode = "desktop", draftParams, onDraftChange
 
   const categoryParam = draftParams?.get("category");
 
-  const currentCategory = mode === "mobile" ? (categoryParam as ProductsCategory) : category;
+  const currentCategory = mode === "mobile" ? (categoryParam ?? "all") as ProductsCategory : category;
   const categoryFilters = getCategoryFilters(currentCategory);
 
   return (

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FiSearch, FiShoppingCart, FiUser } from "react-icons/fi"
+import { FiShoppingCart, FiUser } from "react-icons/fi"
 import { ProductSearch } from "./ProductSearch"
 import { Suspense } from "react"
 
@@ -57,13 +57,9 @@ export const Header = () => {
         {/* Mobile search */}
         <div className="pb-3 md:hidden">
           <div className="relative">
-            <FiSearch className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
-
-            <input
-              type="search"
-              placeholder="Buscar productos..."
-              className="h-10 w-full rounded-full border border-slate-200 bg-white pl-10 pr-4 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400"
-            />
+            <Suspense fallback={null}>
+              <ProductSearch />
+            </Suspense>
           </div>
         </div>
       </div>
