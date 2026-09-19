@@ -40,7 +40,7 @@ export const ProductSearch = () => {
         name="search"
         placeholder="Buscar productos..."
         defaultValue={currentSearch}
-        className="h-10 w-80 rounded-full border border-slate-200 bg-white pl-10 pr-4 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400"
+        className="h-10 w-full md:w-80 rounded-full border border-slate-200 bg-white pl-10 pr-4 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400"
       />
     </form>
   );
