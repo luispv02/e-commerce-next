@@ -44,7 +44,7 @@ export const Header = () => {
               </Link>
 
               <Link
-                href="/admin"
+                href="/login"
                 aria-label="Perfil"
                 className="text-slate-700 transition hover:text-slate-950"
               >
