@@ -6,9 +6,17 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 import { loginSchema, type LoginFormValues } from "../schemas/login";
+import { signIn } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") ?? "/";
+
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -19,7 +27,23 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async (values: LoginFormValues) => {
-    console.log('Login', values)
+
+    const { data, error } = await signIn.email({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (error) {
+      toast.error(error.code === "INVALID_EMAIL_OR_PASSWORD"
+        ? "Correo o contraseña incorrectos."
+        : error.message ?? "Ocurrió un error al iniciar sesión."
+      );
+      return;
+    }
+
+    const destination = from !== "/" ? from : data?.user.role === "admin" ? "/admin" : "/";
+
+    router.replace(destination);
   };
 
   return (

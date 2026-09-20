@@ -1,7 +1,20 @@
+import { LoginRequired } from "@/features/auth/components/LoginRequired";
 import { OrderList } from "@/features/orders/components/OrderList";
 import { orders } from "@/features/orders/data/orders";
+import { getSession } from "@/lib/auth-utils";
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+  const session = await getSession();
+
+  if (!session) {
+    return (
+      <LoginRequired
+        message="Necesitas iniciar sesión para ver tus compras realizadas."
+        returnTo="/orders"
+      />
+    );
+  }
+
   return (
     <section>
       <div className="mb-8">

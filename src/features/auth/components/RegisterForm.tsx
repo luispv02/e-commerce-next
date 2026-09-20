@@ -6,9 +6,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff, FiLock, FiMail, FiUser, FiUserPlus } from "react-icons/fi";
 import { registerSchema, type RegisterFormValues } from "../schemas/register";
+import { signUp } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") ?? "/";
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -20,7 +26,24 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = async (values: RegisterFormValues) => {
-    console.log('Register', values)
+
+    const { data, error } = await signUp.email({
+      name: values.name,
+      email: values.email,
+      password: values.password
+    });
+
+    if (error) {
+      toast.error(error.code === "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL"
+        ? "Ya existe una cuenta con este correo."
+        : error.message ?? "Ocurrió un error al crear tu cuenta."
+      );
+      return;
+    }
+
+    const destination = from !== "/" ? from : data?.user.role === "admin" ? "/admin" : "/";
+
+    router.replace(destination);
   };
 
   return (
