@@ -23,7 +23,7 @@ const navigation = [
   },
   {
     label: "Perfil",
-    href: "/admin",
+    href: "/profile",
     icon: FiUser,
   },
 ];

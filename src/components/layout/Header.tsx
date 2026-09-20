@@ -1,10 +1,14 @@
 import Link from "next/link"
-import { FiShoppingCart, FiUser } from "react-icons/fi"
+import { FiShoppingCart } from "react-icons/fi"
 import { ProductSearch } from "./ProductSearch"
 import { Suspense } from "react"
+import { getSession } from "@/lib/auth-utils"
+import { UserMenu } from "@/features/profile/components/UserMenu"
 
 
-export const Header = () => {
+export const Header = async () => {
+
+  const session = await getSession();
 
 
   return (
@@ -43,13 +47,12 @@ export const Header = () => {
                 <FiShoppingCart className="size-5" />
               </Link>
 
-              <Link
-                href="/login"
-                aria-label="Perfil"
-                className="text-slate-700 transition hover:text-slate-950"
-              >
-                <FiUser className="size-5" />
-              </Link>
+              <UserMenu
+                isAuthenticated={!!session}
+                isAdmin={session?.user.role === "admin"}
+                name={session?.user.name}
+                email={session?.user.email}
+              />
             </div>
           </div>
         </div>
