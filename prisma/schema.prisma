@@ -57,6 +57,7 @@ model Product {
   images    ProductImage[]
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
+  cartItems CartItem[]
 
   @@index([title])
   @@index([brand])
@@ -86,6 +87,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   role          String    @default("user")
+  cart          Cart?
 
   @@unique([email])
   @@map("user")
@@ -137,4 +139,31 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+// Cart
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int
+  variants  Json?
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([cartId])
+  @@index([productId])
 }

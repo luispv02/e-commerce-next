@@ -49,7 +49,7 @@ export const ProductGallery = ({ product }: ProductGalleryProps) => {
 
   return (
     <section aria-label="Galería del producto" className="grid gap-4 md:grid-cols-[88px_minmax(0,1fr)] lg:gap-5">
-      <div className="order-2 flex flex-wrap gap-2">
+      <div className="order-2 flex gap-2 md:flex-col">
         {product.images.map((image, index) => {
           const isSelected = selectedImage.id === image.id;
 
@@ -61,7 +61,7 @@ export const ProductGallery = ({ product }: ProductGalleryProps) => {
               aria-pressed={isSelected}
               onClick={() => scrollToImage(index)}
               className={clsx("relative h-22 w-18 shrink-0 overflow-hidden rounded-xl border bg-white transition sm:h-28  md:w-full cursor-pointer", isSelected
-                ? "border-slate-950 shadow-sm"
+                ? "border-slate-500 shadow-sm"
                 : "border-slate-200 hover:border-slate-400",
               )}
             >

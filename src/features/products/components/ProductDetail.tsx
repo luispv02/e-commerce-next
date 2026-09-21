@@ -37,7 +37,10 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
               onChange={setSelectedVariants}
             />
           )}
-          actions={<ProductActions />}
+          actions={<ProductActions
+            product={product}
+            variants={selectedVariants}
+          />}
         />
       </div>
     </div>

@@ -1,7 +1,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FiShoppingCart } from "react-icons/fi";
 import type { Product } from "../../../types/product";
 import { getProductCategoryLabel } from "../config/categories";
 import { formatPrice } from "@/lib/format-price";
@@ -17,8 +16,11 @@ export const ProductCard = ({ product, priority = false }: ProductCardProps) => 
 
   return (
     <article className="group relative flex min-h-80 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md sm:min-h-85">
-
-      <Link href={`/products/${product.slug}`} className="block">
+      <Link
+        href={`/products/${product.slug}`}
+        className="flex flex-1 flex-col"
+        aria-label={`Ver detalles de ${product.title}`}
+      >
         <div className="relative mx-auto mt-5 aspect-4/3 w-full max-w-55 overflow-hidden">
           {image && (
             <Image
@@ -31,33 +33,23 @@ export const ProductCard = ({ product, priority = false }: ProductCardProps) => 
             />
           )}
         </div>
-      </Link>
 
-      <div className="mt-10 flex flex-1 flex-col px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
-        <Link href={`/products/${product.id}`}>
+        <div className="mt-10 flex flex-1 flex-col px-3 pb-3 pt-2 sm:px-4 sm:py-0 sm:pb-4">
           <h3 className="line-clamp-2 text-xs font-bold leading-4 text-slate-950 sm:text-sm sm:leading-5">
             {product.title}
           </h3>
-        </Link>
 
-        <p className="text-xs font-medium text-slate-500 mt-auto pt-2">
-          {getProductCategoryLabel(product.category)}
-        </p>
-
-        <div className="flex flex-wrap items-baseline gap-2 mt-2">
-          <p className="text-base font-bold text-slate-950 sm:text-lg">
-            {formatPrice(product.price)}
+          <p className="text-xs font-medium text-slate-500 mt-auto pt-2">
+            {getProductCategoryLabel(product.category)}
           </p>
-        </div>
 
-        <button
-          type="button"
-          className="mt-2 inline-flex h-9 w-full items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-2 text-[11px] font-bold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 sm:h-10 sm:text-xs cursor-pointer"
-        >
-          <FiShoppingCart className="size-3.5 shrink-0 sm:size-4" />
-          <span className="truncate">Agregar</span>
-        </button>
-      </div>
+          <div className="flex flex-wrap items-baseline gap-2 mt-2">
+            <p className="text-base font-bold text-slate-950 sm:text-lg">
+              {formatPrice(product.price)}
+            </p>
+          </div>
+        </div>
+      </Link>
     </article>
   );
 };
