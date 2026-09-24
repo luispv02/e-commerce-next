@@ -68,11 +68,11 @@ export const ProductDetails = ({ product, variants, actions }: ProductDetailsPro
           {isInStock ? "En stock" : "Agotado"}
         </span>
 
-        <h1 className="mt-5 text-4xl font-black leading-tight text-slate-950 sm:text-5xl lg:text-[44px]">
+        <h1 className="mt-5 text-3xl font-black  text-slate-950 sm:text-5xl lg:text-[44px]">
           {product.title}
         </h1>
 
-        <p className="mt-5 text-3xl font-black tracking-tight text-slate-950">
+        <p className="mt-2 text-2xl md:text-3xl font-black tracking-tight text-slate-950">
           {formatPrice(product.price)}
         </p>
       </div>

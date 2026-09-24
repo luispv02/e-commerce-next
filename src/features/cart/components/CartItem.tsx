@@ -1,10 +1,16 @@
 import { formatPrice } from "@/lib/format-price";
 import Image from "next/image";
-import { FiTrash2 } from "react-icons/fi";
 import type { CartItem as CartItemType } from "../types/cart";
 import { QuantitySelector } from "./QuantitySelector";
 import { CartItemInfo } from "./CartItemInfo";
 import { getProductFilterLabel } from "@/lib/product-filter-config";
+import { useTransition } from "react";
+import { removeCartItem } from "../actions/remove-cart-item";
+import { toast } from "sonner";
+import { ImSpinner2 } from "react-icons/im";
+import { FiTrash2 } from "react-icons/fi";
+
+
 
 interface CartItemProps {
   item: CartItemType;
@@ -12,6 +18,7 @@ interface CartItemProps {
 
 export const CartItem = ({ item }: CartItemProps) => {
   const { product, quantity, variants, stockAvailable } = item;
+  const [isPending, startTransition] = useTransition();
 
   const image = product.images[0];
   const color = variants?.color ? getProductFilterLabel(product.category, "colors", variants.color) : null;
@@ -19,6 +26,25 @@ export const CartItem = ({ item }: CartItemProps) => {
 
   const lineTotal = product.price * quantity;
   const inStock = stockAvailable > 0;
+
+  const handleRemove = () => {
+    startTransition(async () => {
+      try {
+        const result = await removeCartItem(item.id);
+
+        if (!result.success) {
+          toast.error(result.message);
+          return;
+        }
+
+        toast.success(result.message);
+      } catch (error) {
+        console.error(error);
+        toast.error("No se pudo eliminar el producto.");
+      }
+    });
+  };
+
 
   return (
     <>
@@ -48,10 +74,16 @@ export const CartItem = ({ item }: CartItemProps) => {
 
               <button
                 type="button"
+                onClick={handleRemove}
+                disabled={isPending}
                 aria-label={`Eliminar ${product.title}`}
-                className="inline-flex size-8 shrink-0 items-center justify-center text-red-500 "
+                className="inline-flex size-8 shrink-0 items-center justify-center text-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <FiTrash2 className="size-4" />
+                {isPending ? (
+                  <ImSpinner2 className="size-4 animate-spin" />
+                ) : (
+                  <FiTrash2 className="size-4" />
+                )}
               </button>
             </div>
 
@@ -112,10 +144,16 @@ export const CartItem = ({ item }: CartItemProps) => {
 
         <button
           type="button"
+          onClick={handleRemove}
+          disabled={isPending}
           aria-label={`Eliminar ${product.title}`}
-          className="inline-flex size-8 cursor-pointer items-center justify-center justify-self-end rounded-full text-red-500 hover:bg-red-600/10"
+          className="inline-flex size-8 cursor-pointer items-center justify-center justify-self-end rounded-full text-red-500 hover:bg-red-600/10 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <FiTrash2 className="size-4" />
+          {isPending ? (
+            <ImSpinner2 className="size-4 animate-spin" />
+          ) : (
+            <FiTrash2 className="size-4" />
+          )}
         </button>
       </article>
     </>

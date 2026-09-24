@@ -164,3 +164,44 @@ export const getCartItemCountService = async (userId: string): Promise<number> =
 
   return cart.items.reduce((total, item) => total + item.quantity, 0);
 };
+
+export const removeCartItemService = async (userId: string, cartItemId: string): Promise<CartActionResponse> => {
+  try {
+
+    const cartItem = await prisma.cartItem.findFirst({
+      where: {
+        id: cartItemId,
+        cart: { userId },
+      },
+    });
+
+    if (!cartItem) {
+      throw new CustomError("Producto no encontrado en el carrito.", 404);
+    }
+
+    await prisma.cartItem.delete({
+      where: {
+        id: cartItem.id,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Producto eliminado del carrito.",
+    };
+
+  } catch (error) {
+
+    if (error instanceof CustomError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+
+    return {
+      success: false,
+      message: "No se pudo eliminar el producto del carrito.",
+    };
+  }
+}
