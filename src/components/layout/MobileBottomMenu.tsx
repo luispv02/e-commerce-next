@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiHome, FiShoppingBag, FiShoppingCart, FiUser } from "react-icons/fi";
+import { CartIcon } from "./CartIcon";
 
 const navigation = [
   {
@@ -28,7 +29,11 @@ const navigation = [
   },
 ];
 
-export const MobileBottomMenu = () => {
+interface MobileBottomMenuProps {
+  cartItemCount: number;
+}
+
+export const MobileBottomMenu = ({ cartItemCount }: MobileBottomMenuProps) => {
   const pathname = usePathname();
 
   return (
@@ -44,7 +49,15 @@ export const MobileBottomMenu = () => {
               aria-label={label}
               className={clsx("flex h-full min-w-20 flex-col items-center justify-center gap-1 transition", { "text-black/80": isActive, "text-slate-400": !isActive })}
             >
-              <Icon className="size-5" />
+              {href === "/cart" ? (
+                <CartIcon
+                  cartItemCount={cartItemCount}
+                  badgeClassName="absolute -right-2 -top-2 flex size-4 items-center justify-center rounded-full bg-slate-950 text-[10px] font-bold text-white"
+                  displayCount={cartItemCount}
+                />
+              ) : (
+                <Icon className="size-5" />
+              )}
 
               <span className="text-xs font-medium">
                 {label}

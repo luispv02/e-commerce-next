@@ -24,11 +24,11 @@ export const ProfileMenuItems = ({ isAdmin, onNavigate }: ProfileMenuItemsProps)
         </div>
 
         <div className="flex-1">
-          <p className="font-medium text-slate-950">
+          <p className="text-sm font-medium text-slate-950">
             Mis compras
           </p>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-xs text-slate-500">
             Consulta tu historial de pedidos.
           </p>
         </div>
@@ -47,11 +47,11 @@ export const ProfileMenuItems = ({ isAdmin, onNavigate }: ProfileMenuItemsProps)
           </div>
 
           <div className="flex-1">
-            <p className="font-medium text-slate-950">
+            <p className="font-medium text-sm text-slate-950">
               Panel de administración
             </p>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-xs text-slate-500">
               Administra productos y pedidos.
             </p>
           </div>

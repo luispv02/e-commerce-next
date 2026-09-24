@@ -49,7 +49,7 @@ export const ProductGallery = ({ product }: ProductGalleryProps) => {
 
   return (
     <section aria-label="Galería del producto" className="grid gap-4 md:grid-cols-[88px_minmax(0,1fr)] lg:gap-5">
-      <div className="order-2 flex gap-2 md:flex-col">
+      <div className="order-2 flex gap-2 md:flex-col flex-wrap md:flex-nowrap">
         {product.images.map((image, index) => {
           const isSelected = selectedImage.id === image.id;
 

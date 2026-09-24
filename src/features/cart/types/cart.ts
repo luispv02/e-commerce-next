@@ -16,4 +16,14 @@ export interface CartItem {
   variants?: ProductVariant;
 }
 
+export interface AddCartItem {
+  productId: string;
+  quantity: number;
+  variants?: ProductVariant;
+}
 
+export interface CartActionResponse {
+  success: boolean;
+  message: string;
+  code?: string;
+}

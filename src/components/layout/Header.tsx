@@ -1,12 +1,17 @@
 import Link from "next/link"
-import { FiShoppingCart } from "react-icons/fi"
 import { ProductSearch } from "./ProductSearch"
 import { Suspense } from "react"
 import { getSession } from "@/lib/auth-utils"
 import { UserMenu } from "@/features/profile/components/UserMenu"
+import { Session } from "@/lib/auth"
+import { CartIcon } from "./CartIcon"
 
+interface HeaderProps {
+  cartItemCount: number;
+  session: Session | null;
+}
 
-export const Header = async () => {
+export const Header = async ({ cartItemCount }: HeaderProps) => {
 
   const session = await getSession();
 
@@ -42,9 +47,13 @@ export const Header = async () => {
               <Link
                 href="/cart"
                 aria-label="Carrito"
-                className="text-slate-700 transition hover:text-slate-950"
+                className="text-slate-700 transition hover:text-slate-950 relative"
               >
-                <FiShoppingCart className="size-5" />
+                <CartIcon
+                  cartItemCount={cartItemCount}
+                  badgeClassName="absolute -top-2 -right-2 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-slate-950 text-[11px] font-bold text-white"
+                  displayCount={cartItemCount > 99 ? "99+" : cartItemCount}
+                />
               </Link>
 
               <UserMenu

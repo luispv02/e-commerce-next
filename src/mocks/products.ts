@@ -1,4 +1,4 @@
-import { ProductsListResponse } from "@/types/product-api";
+import { ProductsListResponse } from "@/types/product-response";
 
 export const productsResponse: ProductsListResponse = {
   "ok": true,

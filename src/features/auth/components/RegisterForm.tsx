@@ -9,6 +9,8 @@ import { registerSchema, type RegisterFormValues } from "../schemas/register";
 import { signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { clearPendingCartItem, getPendingCartItem } from "@/features/cart/lib/pending-item";
+import { addCartItem } from "@/features/cart/actions/add-cart-item";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,22 @@ export const RegisterForm = () => {
         : error.message ?? "Ocurrió un error al crear tu cuenta."
       );
       return;
+    }
+
+    // add pending products (when adding to the cart without being logged in)
+    const pendingItem = getPendingCartItem();
+    if (pendingItem) {
+      try {
+        const result = await addCartItem(pendingItem);
+        if (result.success) {
+          clearPendingCartItem();
+          toast.success("Producto agregado al carrito");
+        } else {
+          toast.error(result.message);
+        }
+      } catch (err) {
+        console.error("Error al agregar el producto pendiente:", err);
+      }
     }
 
     const destination = from !== "/" ? from : data?.user.role === "admin" ? "/admin" : "/";

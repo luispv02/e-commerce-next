@@ -40,11 +40,6 @@ export interface OtherProduct extends BaseProduct {
 
 export type Product = ClothesProduct | TechnologyProduct | OtherProduct;
 
-export interface ProductResponse {
-  ok: boolean;
-  product: Product;
-}
-
 export interface ProductVariant {
   size?: string;
   color?: string;

@@ -9,6 +9,8 @@ import { loginSchema, type LoginFormValues } from "../schemas/login";
 import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { clearPendingCartItem, getPendingCartItem } from "@/features/cart/lib/pending-item";
+import { addCartItem } from "@/features/cart/actions/add-cart-item";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,23 @@ export const LoginForm = () => {
         : error.message ?? "Ocurrió un error al iniciar sesión."
       );
       return;
+    }
+
+    // add pending products (when adding to the cart without being logged in)
+    const pendingItem = getPendingCartItem();
+    if (pendingItem) {
+      try {
+        const result = await addCartItem(pendingItem);
+        if (result.success) {
+          clearPendingCartItem();
+          toast.success("Producto agregado al carrito");
+        } else {
+          toast.error(result.message);
+        }
+      } catch (err) {
+        console.error("Error al agregar el producto pendiente:", err);
+        toast.error("No se pudo agregar el producto al carrito.");
+      }
     }
 
     const destination = from !== "/" ? from : data?.user.role === "admin" ? "/admin" : "/";

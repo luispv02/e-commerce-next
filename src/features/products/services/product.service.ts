@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { ProductResponse, ProductsListResponse } from "@/types/product-api";
+import type { ProductResponse, ProductsListResponse } from "@/types/product-response";
 import { mapProduct } from "../mappers/product.mapper";
 import type { ProductFilters } from "../types/filters";
 import { getProductFilters } from "@/lib/product-filter-query";

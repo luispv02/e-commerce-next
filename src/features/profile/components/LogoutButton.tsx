@@ -26,24 +26,25 @@ export const LogoutButton = ({ onLogout }: LogoutButtonProps) => {
 
     onLogout?.();
     router.replace("/");
+    router.refresh();
   };
 
   return (
     <button
       type="button"
       onClick={handleLogout}
-      className="flex w-full items-center gap-4 px-4 py-5 text-left transition hover:bg-slate-50"
+      className="flex w-full items-center gap-4 px-4 py-5 text-left transition hover:bg-slate-5 cursor-pointer  hover:bg-slate-50"
     >
       <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100">
         <FiLogOut className="size-5 text-slate-600" />
       </div>
 
       <div className="flex-1">
-        <p className="font-medium text-slate-950">
+        <p className="text-sm font-medium text-slate-950">
           Cerrar sesión
         </p>
 
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-xs text-slate-500">
           Salir de tu cuenta.
         </p>
       </div>

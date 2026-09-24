@@ -61,11 +61,11 @@ export const UserMenu = ({ isAuthenticated, isAdmin, name, email }: UserMenuProp
             {isAuthenticated ? (
               <>
                 <div className="border-b border-slate-100 px-4 py-4">
-                  <p className="truncate text-base font-semibold text-slate-950">
+                  <p className="truncate text-sm font-semibold text-slate-950">
                     {name}
                   </p>
 
-                  <p className="truncate text-base text-slate-500">
+                  <p className="truncate text-sm text-slate-500">
                     {email}
                   </p>
                 </div>
