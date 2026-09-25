@@ -22,10 +22,15 @@ export const CartItemInfo = ({ title, color, size, inStock, }: CartItemInfoProps
         </p>
       )}
 
-      {inStock && (
+      {inStock ? (
         <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
           <FiCheck className="size-3 stroke-[2.5]" />
           En stock
+        </span>
+      ) : (
+        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">
+          <FiCheck className="size-3 stroke-[2.5]" />
+          Sin Stock
         </span>
       )}
     </div>

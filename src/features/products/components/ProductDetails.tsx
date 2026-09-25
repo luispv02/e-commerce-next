@@ -54,18 +54,14 @@ const getProductAttributes = (product: Product): AttributeItem[] => {
 
 export const ProductDetails = ({ product, variants, actions }: ProductDetailsProps) => {
   const attributes = getProductAttributes(product);
-  const isInStock = product.stock > 0;
+  const stockStatus = getStockStatus(product.stock);
 
   return (
     <section className="flex h-full flex-col">
       <div className="border-b border-slate-200 pb-7">
         <span
-          className={clsx("inline-flex h-9 items-center rounded-full px-4 text-sm font-bold", isInStock
-            ? "bg-emerald-100 text-emerald-700"
-            : "bg-rose-100 text-rose-700",
-          )}
-        >
-          {isInStock ? "En stock" : "Agotado"}
+          className={clsx("inline-flex h-9 items-center rounded-full px-4 text-sm font-bold", stockStatus.className)}>
+          {stockStatus.label}
         </span>
 
         <h1 className="mt-5 text-3xl font-black  text-slate-950 sm:text-5xl lg:text-[44px]">
@@ -117,4 +113,25 @@ export const ProductDetails = ({ product, variants, actions }: ProductDetailsPro
       <div className="mt-auto pt-1">{actions}</div>
     </section>
   );
+};
+
+const getStockStatus = (stock: number) => {
+  if (stock === 0) {
+    return {
+      label: "Agotado",
+      className: "bg-rose-100 text-rose-700",
+    };
+  }
+
+  if (stock <= 5) {
+    return {
+      label: `Solo quedan ${stock}`,
+      className: "bg-amber-100 text-amber-700",
+    };
+  }
+
+  return {
+    label: "En stock",
+    className: "bg-emerald-100 text-emerald-700",
+  };
 };
