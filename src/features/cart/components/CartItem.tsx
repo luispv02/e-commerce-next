@@ -9,6 +9,8 @@ import { removeCartItem } from "../actions/remove-cart-item";
 import { toast } from "sonner";
 import { ImSpinner2 } from "react-icons/im";
 import { FiTrash2 } from "react-icons/fi";
+import { updateCartItemQuantity } from "../actions/update-cart-item-quantity";
+import { CartItemImage } from "./CartItemImage";
 
 
 
@@ -18,17 +20,19 @@ interface CartItemProps {
 
 export const CartItem = ({ item }: CartItemProps) => {
   const { product, quantity, variants, stockAvailable } = item;
-  const [isPending, startTransition] = useTransition();
+  
+  const [isRemoving, startRemoveTransition] = useTransition();
+  const [isUpdating, startUpdateTransition] = useTransition();
 
   const image = product.images[0];
   const color = variants?.color ? getProductFilterLabel(product.category, "colors", variants.color) : null;
   const size = variants?.size ? getProductFilterLabel(product.category, "sizes", variants.size) : null;
 
-  const lineTotal = product.price * quantity;
+  const subtotal = product.price * quantity;
   const inStock = stockAvailable > 0;
 
   const handleRemove = () => {
-    startTransition(async () => {
+    startRemoveTransition(async () => {
       try {
         const result = await removeCartItem(item.id);
 
@@ -45,6 +49,23 @@ export const CartItem = ({ item }: CartItemProps) => {
     });
   };
 
+  const handleUpdateQuantity = (quantity: number) => {
+    startUpdateTransition(async () => {
+      try {
+        const result = await updateCartItemQuantity(item.id, quantity);
+
+        if (!result.success) {
+          toast.error(result.message);
+          return;
+        }
+
+        toast.success(result.message);
+      } catch (error) {
+        console.error(error);
+        toast.error("No se pudo actualizar la cantidad.");
+      }
+    });
+  };
 
   return (
     <>
@@ -52,15 +73,7 @@ export const CartItem = ({ item }: CartItemProps) => {
       <article className="md:hidden rounded-xl border border-slate-200 bg-white p-4 ">
         <div className="flex gap-3">
           <div className="relative size-22 shrink-0 overflow-hidden rounded-lg sm:size-24 border border-slate-200">
-            {image && (
-              <Image
-                src={image.url}
-                alt={product.title}
-                fill
-                sizes="96px"
-                className="object-contain"
-              />
-            )}
+            <CartItemImage image={image} title={product.title} />
           </div>
 
           <div className="min-w-0 flex-1">
@@ -75,11 +88,11 @@ export const CartItem = ({ item }: CartItemProps) => {
               <button
                 type="button"
                 onClick={handleRemove}
-                disabled={isPending}
+                disabled={isRemoving}
                 aria-label={`Eliminar ${product.title}`}
                 className="inline-flex size-8 shrink-0 items-center justify-center text-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isPending ? (
+                {isRemoving ? (
                   <ImSpinner2 className="size-4 animate-spin" />
                 ) : (
                   <FiTrash2 className="size-4" />
@@ -94,12 +107,17 @@ export const CartItem = ({ item }: CartItemProps) => {
 
 
             <div className="mt-4 flex items-end justify-between gap-3">
-              <QuantitySelector quantity={quantity} />
+              <QuantitySelector
+                quantity={item.quantity}
+                stockAvailable={item.stockAvailable}
+                isPending={isUpdating}
+                onQuantityChange={handleUpdateQuantity}
+              />
 
               <div className="text-right">
                 <p className="text-xs text-slate-500">Subtotal</p>
                 <p className="mt-0.5 text-sm font-bold text-slate-950">
-                  {formatPrice(lineTotal)}
+                  {formatPrice(subtotal)}
                 </p>
               </div>
             </div>
@@ -111,15 +129,7 @@ export const CartItem = ({ item }: CartItemProps) => {
       <article className="hidden md:grid min-w-175 grid-cols-[minmax(0,1fr)_104px_148px_104px_40px] items-center px-6 py-4">
         <div className="flex min-w-0 items-center gap-4">
           <div className="relative size-20 md:size-24 shrink-0 overflow-hidden rounded-lg border border-slate-200">
-            {image && (
-              <Image
-                src={image.url}
-                alt={product.title}
-                fill
-                sizes="96px"
-                className="object-contain"
-              />
-            )}
+            <CartItemImage image={image} title={product.title} />
           </div>
 
           <CartItemInfo
@@ -135,21 +145,26 @@ export const CartItem = ({ item }: CartItemProps) => {
         </p>
 
         <div className="flex justify-center">
-          <QuantitySelector quantity={quantity} />
+          <QuantitySelector
+            quantity={item.quantity}
+            stockAvailable={item.stockAvailable}
+            isPending={isUpdating}
+            onQuantityChange={handleUpdateQuantity}
+          />
         </div>
 
         <p className="text-right text-sm text-slate-950">
-          {formatPrice(lineTotal)}
+          {formatPrice(subtotal)}
         </p>
 
         <button
           type="button"
           onClick={handleRemove}
-          disabled={isPending}
+          disabled={isRemoving}
           aria-label={`Eliminar ${product.title}`}
           className="inline-flex size-8 cursor-pointer items-center justify-center justify-self-end rounded-full text-red-500 hover:bg-red-600/10 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending ? (
+          {isRemoving ? (
             <ImSpinner2 className="size-4 animate-spin" />
           ) : (
             <FiTrash2 className="size-4" />

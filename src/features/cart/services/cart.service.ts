@@ -205,3 +205,82 @@ export const removeCartItemService = async (userId: string, cartItemId: string):
     };
   }
 }
+
+export const updateCartItemQuantityService = async (userId: string, cartItemId: string, quantity: number): Promise<CartActionResponse> => {
+
+  if (quantity < 1) {
+    return {
+      success: false,
+      message: "La cantidad debe ser mayor a 0.",
+    };
+  }
+
+  try {
+    await prisma.$transaction(async (tx) => {
+
+      const cartItem = await tx.cartItem.findFirst({
+        where: {
+          id: cartItemId,
+          cart: { userId },
+        },
+        include: {
+          product: true,
+        },
+      });
+
+      if (!cartItem) {
+        throw new CustomError("Producto no encontrado en el carrito.", 404);
+      }
+
+      if (!cartItem.product.isActive) {
+        throw new CustomError("Este producto ya no está disponible.", 400);
+      }
+
+      const otherVariantItems = await tx.cartItem.findMany({
+        where: {
+          cartId: cartItem.cartId,
+          productId: cartItem.productId,
+          NOT: {
+            id: cartItem.id,
+          },
+        },
+        select: {
+          quantity: true,
+        },
+      });
+
+      const quantityOfOtherVariants = otherVariantItems.reduce((total, item) => total + item.quantity, 0);
+
+      const totalQuantity = quantityOfOtherVariants + quantity;
+
+      if (totalQuantity > cartItem.product.stock) {
+        const availableStock = cartItem.product.stock - quantityOfOtherVariants;
+        throw new CustomError(`Solo hay ${availableStock} unidades disponibles.`, 400);
+      }
+
+      await tx.cartItem.update({
+        where: {
+          id: cartItem.id,
+        },
+        data: { quantity },
+      });
+    });
+
+    return {
+      success: true,
+      message: "Cantidad actualizada.",
+    };
+  } catch (error) {
+    if (error instanceof CustomError) {
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+
+    return {
+      success: false,
+      message: "No se pudo actualizar la cantidad.",
+    };
+  }
+};
