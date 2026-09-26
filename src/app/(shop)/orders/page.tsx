@@ -1,6 +1,7 @@
 import { LoginRequired } from "@/features/auth/components/LoginRequired";
+import { EmptyOrders } from "@/features/orders/components/EmptyOrders";
 import { OrderList } from "@/features/orders/components/OrderList";
-import { orders } from "@/features/orders/data/orders";
+import { getOrdersService } from "@/features/orders/service/orders.service";
 import { getSession } from "@/lib/auth-utils";
 
 export default async function OrdersPage() {
@@ -15,6 +16,8 @@ export default async function OrdersPage() {
     );
   }
 
+  const orders = await getOrdersService(session.user.id);
+
   return (
     <section>
       <div className="mb-8">
@@ -27,7 +30,11 @@ export default async function OrdersPage() {
         </p>
       </div>
 
-      <OrderList orders={orders} />
+      {orders.length === 0 ? (
+        <EmptyOrders />
+      ) : (
+        <OrderList orders={orders} />
+      )}
     </section>
   );
 }

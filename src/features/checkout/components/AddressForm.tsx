@@ -230,7 +230,7 @@ export const AddressForm = ({ onContinue }: AddressFormProps) => {
           )}
         </label>
 
-        <label className="mt-4 flex cursor-pointer items-center gap-3">
+        {/* <label className="mt-4 flex cursor-pointer items-center gap-3">
           <input
             {...register("saveAddress")}
             type="checkbox"
@@ -240,7 +240,7 @@ export const AddressForm = ({ onContinue }: AddressFormProps) => {
           <span className="block text-sm font-medium text-slate-950">
             ¿Guardar esta dirección en mi cuenta?
           </span>
-        </label>
+        </label> */}
 
         <div className="mt-6 border-t border-[#d9e3f0] pt-5">
           <button

@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiEdit2, FiShoppingCart } from "react-icons/fi";
 import type { CartItem } from "@/features/cart/types/cart";
 import { formatPrice } from "@/lib/format-price";
 import { getProductFilterLabel } from "@/lib/product-filter-config";
 import { CartItemInfo } from "@/features/cart/components/CartItemInfo";
+import Link from "next/link";
 
 interface ProductReviewListProps {
   items: CartItem[];
@@ -18,9 +19,20 @@ export const ProductReviewList = ({ items, itemCount }: ProductReviewListProps) 
         <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
           <FiShoppingCart className="size-7" />
         </div>
-        <h2 className="text-xl font-bold tracking-tight text-slate-950">
-          Productos ({itemCount})
-        </h2>
+
+        <div className="flex justify-between w-full">
+          <h2 className="text-xl font-bold tracking-tight text-slate-950">
+            Productos ({itemCount})
+          </h2>
+
+          <Link
+            href={"/cart"}
+            className="flex h-9 w-fit items-center justify-center gap-2 rounded-md border border-blue-300 px-4 text-sm font-semibold text-blue-600 transition hover:bg-blue-50 cursor-pointer"
+          >
+            <FiEdit2 className="size-4" />
+            Editar
+          </Link>
+        </div>
       </div>
 
       <div className="mt-4 divide-y divide-[#d9e3f0]">

@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
-
-import { cart } from "@/features/cart/data/cart-items";
 import type { ShippingAddressFormData } from "@/features/checkout/schemas/address";
 
 import { AddressForm } from "./AddressForm";
@@ -12,8 +10,14 @@ import { AddressSummary } from "./AddressSummary";
 import { CheckoutSteps } from "./CheckoutSteps";
 import { ProductReviewList } from "./ProductReviewList";
 import { OrderSummary } from "./OrderSummary";
+import { Cart } from "@/features/cart/types/cart";
 
-export const CheckoutView = () => {
+interface CheckoutViewProps {
+  cart: Cart
+}
+
+export const CheckoutView = ({ cart }: CheckoutViewProps) => {
+  
   const [step, setStep] = useState<1 | 2>(1);
   const [shippingAddress, setShippingAddress] = useState<ShippingAddressFormData | null>(null);
 
@@ -56,7 +60,7 @@ export const CheckoutView = () => {
 
       <CheckoutSteps currentStep={step} className="mt-6 md:mt-5" />
 
-      {isReview ? (
+      {isReview && shippingAddress ? (
         <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_344px]">
           <div className="space-y-4">
             {shippingAddress && (
@@ -75,6 +79,7 @@ export const CheckoutView = () => {
           <OrderSummary
             itemCount={itemCount}
             subtotal={subtotal}
+            shippingAddress={shippingAddress}
           />
         </div>
       ) : (

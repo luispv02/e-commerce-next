@@ -1,13 +1,15 @@
 
 import { formatPrice } from "@/lib/format-price";
 import { PaymentSection } from "./PaymentSection";
+import { ShippingAddressFormData } from "../schemas/address";
 
 interface OrderSummaryProps {
   itemCount: number;
   subtotal: number;
+  shippingAddress: ShippingAddressFormData;
 }
 
-export const OrderSummary = ({ itemCount, subtotal }: OrderSummaryProps) => {
+export const OrderSummary = ({ itemCount, subtotal, shippingAddress }: OrderSummaryProps) => {
 
   return (
     <aside className="overflow-hidden rounded-lg border border-[#c5d3e6] bg-white lg:sticky lg:top-24">
@@ -38,7 +40,7 @@ export const OrderSummary = ({ itemCount, subtotal }: OrderSummaryProps) => {
             </p>
           </div>
 
-          <PaymentSection />
+          <PaymentSection shippingAddress={shippingAddress} />
         </div>
       </div>
     </aside>

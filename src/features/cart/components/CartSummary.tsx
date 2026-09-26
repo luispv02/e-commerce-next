@@ -1,13 +1,20 @@
 import { formatPrice } from "@/lib/format-price";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FiLock } from "react-icons/fi";
 
 interface CartSummaryProps {
   itemCount: number;
   subtotal: number;
+  hasInvalidItems: boolean;
 }
 
-export const CartSummary = ({ itemCount, subtotal }: CartSummaryProps) => {
+export const CartSummary = ({ itemCount, subtotal, hasInvalidItems }: CartSummaryProps) => {
+
+  const router = useRouter()
+
+  const handleCheckout = () => {
+    router.push("/checkout");
+  };
 
   return (
     <div className="space-y-4">
@@ -42,13 +49,23 @@ export const CartSummary = ({ itemCount, subtotal }: CartSummaryProps) => {
             </p>
           </div>
 
-          <Link
-            href="/checkout"
-            className="mt-6 hidden h-12 w-full items-center justify-center gap-2 rounded-lg bg-slate-950 text-sm font-semibold text-white transition hover:bg-slate-800 md:inline-flex"
-          >
-            <FiLock className="size-4" />
-            Finalizar compra
-          </Link>
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={hasInvalidItems}
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-slate-950 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+            >
+              <FiLock className="size-4" />
+              Finalizar compra
+            </button>
+
+            {hasInvalidItems && (
+              <p className="mt-3 text-center text-xs font-medium text-rose-600">
+                Revisa los productos de tu carrito para continuar.
+              </p>
+            )}
+          </div>
         </div>
       </section>
     </div>

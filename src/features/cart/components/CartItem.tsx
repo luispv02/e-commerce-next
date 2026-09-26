@@ -1,5 +1,4 @@
 import { formatPrice } from "@/lib/format-price";
-import Image from "next/image";
 import type { CartItem as CartItemType } from "../types/cart";
 import { QuantitySelector } from "./QuantitySelector";
 import { CartItemInfo } from "./CartItemInfo";

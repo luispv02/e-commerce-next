@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiArrowLeft, FiLock } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
 
 import { CartItem } from "./CartItem";
 import { CartSummary } from "./CartSummary";
@@ -22,6 +22,8 @@ export const CartContent = ({ cart }: CartContentProps) => {
 
   const itemCount = items.reduce((total, item) => total + item.quantity, 0);
   const subtotal = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+
+  const hasInvalidItems = items.some((item) => !item.product.isActive || item.stockAvailable < 0);
 
   return (
     <>
@@ -76,17 +78,8 @@ export const CartContent = ({ cart }: CartContentProps) => {
           <CartSummary
             itemCount={itemCount}
             subtotal={subtotal}
+            hasInvalidItems={hasInvalidItems}
           />
-
-          <div className="mt-4 md:hidden">
-            <Link
-              href="/checkout"
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-slate-950 text-sm font-semibold text-white"
-            >
-              <FiLock className="size-4" />
-              Finalizar compra
-            </Link>
-          </div>
         </div>
       </div>
     </>
