@@ -1,9 +1,13 @@
+export type DashboardPeriod = "7d" | "30d" | "3m" | "6m" | "1y";
+
+export type DashboardGroupBy = "day" | "week" | "month";
+
 export interface DashboardSummary {
   totalRevenue: number;
   totalOrders: number;
   unitsSold: number;
   averageOrderValue: number;
-  growth: number;
+  growth: number | null;
   newUsers: number;
 }
 
@@ -16,7 +20,7 @@ export interface RecentOrder {
   id: string;
   customerEmail: string;
   customerName: string;
-  date: string;
+  date: Date;
   total: number;
 }
 
@@ -25,7 +29,7 @@ export interface TopProduct {
   name: string;
   units: number;
   revenue: number;
-  image: string;
+  image: string | null;
   percentage: number;
 }
 
@@ -41,7 +45,6 @@ export interface DashboardStat {
   id: string;
   label: string;
   value: string;
-  change: number;
   icon: "revenue" | "sales" | "orders" | "users";
   sparklineColor: string;
 }

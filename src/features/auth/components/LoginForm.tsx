@@ -60,7 +60,7 @@ export const LoginForm = () => {
       }
     }
 
-    const destination = from !== "/" ? from : data?.user.role === "admin" ? "/admin" : "/";
+    const destination = from !== "/" ? from : "/";
 
     router.replace(destination);
   };

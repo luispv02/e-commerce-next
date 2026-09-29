@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { FiActivity } from "react-icons/fi";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, } from "recharts";
 import type { SalesPoint } from "../types/dashboard";
-import { formatWeekLabel } from "../utils/format-dashboard";
+import { formatAxisLabel, formatTooltipLabel } from "../lib/dashboard-helper";
 
 interface RevenueChartProps {
   sales: SalesPoint[];
@@ -15,7 +15,7 @@ export const RevenueChart = ({ sales }: RevenueChartProps) => {
 
   const chartData = useMemo(() => {
     return sales.map((point) => ({
-      label: formatWeekLabel(point.date),
+      label: point.date,
       revenue: point.revenue,
     }));
   }, [sales]);
@@ -47,6 +47,7 @@ export const RevenueChart = ({ sales }: RevenueChartProps) => {
               axisLine={false}
               interval="preserveStartEnd"
               minTickGap={28}
+              tickFormatter={formatAxisLabel}
             />
             <YAxis
               tick={{ fill: "#64748B", fontSize: 11 }}
@@ -72,14 +73,14 @@ export const RevenueChart = ({ sales }: RevenueChartProps) => {
   );
 };
 
-const ChartTooltip = ({ active, payload, }: { active?: boolean; payload?: { payload: { label: string; revenue: number } }[]; }) => {
+const ChartTooltip = ({ active, payload }: { active?: boolean; payload?: { payload: { label: string; revenue: number } }[]; }) => {
   if (!active || !payload?.[0]) return null;
 
   const point = payload[0].payload;
 
   return (
     <div className="rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-md">
-      <p className="text-xs text-slate-500">{point.label}</p>
+      <p className="text-xs text-slate-500">{formatTooltipLabel(point.label)}</p>
       <p className="mt-0.5 text-sm font-semibold text-slate-950">
         {formatPrice(point.revenue)}
       </p>

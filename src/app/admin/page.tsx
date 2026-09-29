@@ -4,20 +4,29 @@ import { DashboardPeriodFilter } from "@/features/admin/dashboard/components/Das
 import { RecentOrders } from "@/features/admin/dashboard/components/RecentOrders";
 import { RevenueChart } from "@/features/admin/dashboard/components/RevenueChart";
 import { StatsCard } from "@/features/admin/dashboard/components/StatsCard";
-import { dashboardData } from "@/features/admin/dashboard/data/dashboard-data";
-import type { DashboardStat } from "@/features/admin/dashboard/types/dashboard";
+import { getDashboardData } from "@/features/admin/dashboard/services/dashboard.service";
+import type { DashboardPeriod, DashboardStat } from "@/features/admin/dashboard/types/dashboard";
 import { formatPrice } from "@/lib/format-price";
 
-export default function AdminPage() {
-  const { summary, sales, recentOrders, topProducts } = dashboardData;
-  const sparkline = sales.map((point) => point.revenue);
+interface AdminPageProps {
+  searchParams: Promise<{
+    period?: DashboardPeriod;
+  }>;
+};
+
+export default async function AdminPage({ searchParams }: AdminPageProps) {
+
+  const params = await searchParams;
+
+  const period = params.period ?? "7d";
+
+  const { summary, sales, recentOrders, topProducts, } = await getDashboardData(period);
 
   const stats: DashboardStat[] = [
     {
       id: "revenue",
       label: "Ingresos totales",
       value: formatPrice(summary.totalRevenue),
-      change: summary.growth,
       icon: "revenue",
       sparklineColor: "#2563EB",
     },
@@ -25,7 +34,6 @@ export default function AdminPage() {
       id: "sales",
       label: "Ventas (unidades)",
       value: String(summary.unitsSold),
-      change: 125,
       icon: "sales",
       sparklineColor: "#10B981",
     },
@@ -33,7 +41,6 @@ export default function AdminPage() {
       id: "orders",
       label: "Número de pedidos",
       value: String(summary.totalOrders),
-      change: 70,
       icon: "orders",
       sparklineColor: "#8B5CF6",
     },
@@ -41,7 +48,6 @@ export default function AdminPage() {
       id: "users",
       label: "Usuarios registrados",
       value: String(summary.newUsers),
-      change: 116.7,
       icon: "users",
       sparklineColor: "#F59E0B",
     },
@@ -56,7 +62,7 @@ export default function AdminPage() {
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
-          <StatsCard key={stat.id} stat={stat} sparkline={sparkline} />
+          <StatsCard key={stat.id} stat={stat} />
         ))}
       </section>
 
