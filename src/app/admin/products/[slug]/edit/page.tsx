@@ -1,5 +1,5 @@
 import { ProductForm } from "@/features/admin/products/components/form/ProductForm";
-import { productsResponse } from "@/mocks/products";
+import { getProductBySlug } from "@/features/admin/products/services/product.service";
 import { notFound } from "next/navigation";
 
 interface AdminEditProductPageProps {
@@ -11,12 +11,11 @@ interface AdminEditProductPageProps {
 export default async function AdminEditProductPage({ params, }: AdminEditProductPageProps) {
 
   const { slug } = await params;
-  
-  const product = productsResponse.data.products.find((item) => item.slug === slug);
+  const productResponse = await getProductBySlug(slug);
 
-  if (!product) {
+  if (!productResponse) {
     notFound();
   }
 
-  return <ProductForm mode="edit" product={product} />;
+  return <ProductForm mode="edit" product={productResponse.product} />;
 }
