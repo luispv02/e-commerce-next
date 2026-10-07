@@ -79,7 +79,7 @@ export const ProductDetails = ({ product, variants, actions }: ProductDetailsPro
             <FiInfo className="size-5" />
           </div>
 
-          <p className="text-sm leading-6 text-slate-700">
+          <p className="text-sm leading-6 text-slate-700 whitespace-pre-line">
             {product.description}
           </p>
         </section>

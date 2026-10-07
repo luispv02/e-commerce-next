@@ -1,11 +1,13 @@
+import clsx from "clsx";
 import Link from "next/link";
-import { FiArrowLeft, FiSave, FiTrash2 } from "react-icons/fi";
+import { FiArrowLeft, FiLoader, FiSave, FiTrash2 } from "react-icons/fi";
 
 interface ProductFormHeaderProps {
   mode: "create" | "edit";
+  isSubmitting: boolean;
 }
 
-export const ProductFormHeader = ({ mode }: ProductFormHeaderProps) => {
+export const ProductFormHeader = ({ mode, isSubmitting }: ProductFormHeaderProps) => {
   const isEdit = mode === "edit";
 
   return (
@@ -25,7 +27,7 @@ export const ProductFormHeader = ({ mode }: ProductFormHeaderProps) => {
       <div className="flex flex-wrap items-center gap-2">
         <Link
           href="/admin/products"
-          className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+          className={clsx("cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50", isSubmitting && "pointer-events-none")}
         >
           <FiArrowLeft className="size-4" />
           Volver a productos
@@ -34,7 +36,8 @@ export const ProductFormHeader = ({ mode }: ProductFormHeaderProps) => {
         {isEdit && (
           <button
             type="button"
-            className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg border border-red-200 bg-white px-3 text-sm font-medium text-red-600 transition hover:bg-red-50"
+            disabled={isSubmitting}
+            className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg border border-red-200 bg-white px-3 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <FiTrash2 className="size-4" />
             Eliminar
@@ -43,10 +46,18 @@ export const ProductFormHeader = ({ mode }: ProductFormHeaderProps) => {
 
         <button
           type="submit"
-          className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-slate-800"
+          disabled={isSubmitting}
+          className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <FiSave className="size-4" />
-          {isEdit ? "Guardar cambios" : "Guardar producto"}
+          {isSubmitting ? (<FiLoader className="size-4 animate-spin" />) : (<FiSave className="size-4" />)}
+
+          {isSubmitting
+            ? isEdit
+              ? "Guardando cambios..."
+              : "Guardando producto..."
+            : isEdit
+              ? "Guardar cambios"
+              : "Guardar producto"}
         </button>
       </div>
     </div>

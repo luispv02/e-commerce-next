@@ -2,7 +2,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { ProductsHeader } from "@/features/admin/products/components/list/ProductsHeader";
 import { ProductsTable } from "@/features/admin/products/components/list/ProductsTable";
 import { parseProductSearchParams } from "@/features/products/lib/parse-product-search-params";
-import { getProducts } from "@/features/products/services/product.service";
+import { getProductsService } from "@/features/admin/products/services/product.service";
 import { ProductSearchParams } from "@/features/products/types/filters";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -19,7 +19,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
 
   const filters = parseProductSearchParams(params);
 
-  const productResponse = await getProducts({ filters });
+  const productResponse = await getProductsService({ filters });
   const { products, pagination } = productResponse.data;
 
   return (

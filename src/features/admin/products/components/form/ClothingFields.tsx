@@ -8,6 +8,7 @@ import { LuShirt } from "react-icons/lu";
 import type { ProductFormValues } from "../../schemas/product-form";
 import { FormSection } from "./FormSection";
 import { FieldError } from "./FieldError";
+import { ProductSize } from "../../../../../../generated/prisma/enums";
 
 const sizesFilter = clothesFilters.find((filter) => filter.filterKey === "sizes");
 const genderFilter = clothesFilters.find((filter) => filter.filterKey === "gender");
@@ -33,7 +34,7 @@ export const ClothingFields = () => {
             render={({ field }) => (
               <div className="flex flex-wrap gap-2">
                 {sizesFilter?.options.map((option) => {
-                  const selected = field.value.includes(option.id);
+                  const selected = field.value.includes(option.id as ProductSize);
 
                   return (
                     <button
@@ -45,7 +46,7 @@ export const ClothingFields = () => {
                           : [...field.value, option.id]
                         );
                       }}
-                      className={clsx("h-9 min-w-11 rounded-lg border px-3 text-sm font-medium transition", selected
+                      className={clsx("h-9 min-w-11 rounded-lg border px-3 text-sm font-medium transition cursor-pointer", selected
                         ? "border-blue-600 bg-blue-600 text-white"
                         : "border-slate-200 bg-white text-slate-700 hover:border-slate-300",
                       )}
@@ -74,7 +75,7 @@ export const ClothingFields = () => {
                   id="gender"
                   value={field.value}
                   onChange={field.onChange}
-                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500"
+                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500 cursor-pointer"
                 >
                   <option value="">Selecciona un género</option>
                   {genderFilter?.options.map((option) => (
@@ -109,7 +110,7 @@ export const ClothingFields = () => {
                           : [...field.value, option.id],
                         );
                       }}
-                      className={clsx("inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition", selected
+                      className={clsx("inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition cursor-pointer", selected
                         ? "border-blue-600 bg-blue-50 text-blue-700"
                         : "border-slate-200 bg-white text-slate-700",
                       )}
@@ -142,7 +143,7 @@ export const ClothingFields = () => {
                   id="clothes-type"
                   value={field.value}
                   onChange={field.onChange}
-                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500"
+                  className="h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500 cursor-pointer"
                 >
                   <option value="">Selecciona un tipo</option>
                   {typeFilter?.options.map((option) => (

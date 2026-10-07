@@ -105,7 +105,7 @@ export const ProductGeneralInfo = ({ categoryLocked }: ProductGeneralInfoProps) 
                 handleCategoryChange(event.target.value as ProductFormValues["category"])
               }
               className={clsx(
-                "h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500",
+                "h-11 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm text-slate-950 outline-none transition focus:border-blue-500 cursor-pointer",
                 categoryLocked && "cursor-not-allowed bg-slate-50 text-slate-500 opacity-60",
               )}
             >

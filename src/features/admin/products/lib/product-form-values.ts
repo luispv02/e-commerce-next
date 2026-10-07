@@ -1,20 +1,17 @@
-import type { Product, ProductImage } from "@/types/product";
-import type { NewProductFile, ProductImagesState } from "../types/product-images";
+import type { Product } from "@/types/product";
 import type { ProductFormValues } from "../schemas/product-form";
+import { ProductGender, ProductSize } from "../../../../../generated/prisma/enums";
 
 type ProductFormBasePayload = Omit<ProductFormValues, "price" | "stock" | "sizes" | "gender" | "colors" | "type" | "brand"> & {
   price: number;
   stock: number;
-  files: NewProductFile[];
-  productImages: ProductImage[];
-  deletedImages: ProductImage[];
 };
 
 export type ProductFormPayload =
   | (ProductFormBasePayload & {
     category: "clothes";
-    sizes: string[];
-    gender: string;
+    sizes: ProductSize[];
+    gender: ProductGender;
     colors: string[];
     type: string;
   })
@@ -63,7 +60,7 @@ export const getProductFormValues = (product?: Product): ProductFormValues => {
   };
 };
 
-export const getProductFormPayload = (values: ProductFormValues, images: ProductImagesState,): ProductFormPayload => {
+export const getProductFormPayload = (values: ProductFormValues): ProductFormPayload => {
   const basePayload: ProductFormBasePayload = {
     title: values.title,
     price: Number(values.price),
@@ -72,9 +69,6 @@ export const getProductFormPayload = (values: ProductFormValues, images: Product
     category: values.category,
     isActive: values.isActive,
     isFeatured: values.isFeatured,
-    files: images.files,
-    productImages: images.productImages,
-    deletedImages: images.deletedImages,
   };
 
   if (values.category === "clothes") {
@@ -82,7 +76,7 @@ export const getProductFormPayload = (values: ProductFormValues, images: Product
       ...basePayload,
       category: values.category,
       sizes: values.sizes,
-      gender: values.gender,
+      gender: values.gender as ProductGender,
       colors: values.colors,
       type: values.type,
     };

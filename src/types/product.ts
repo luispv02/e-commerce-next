@@ -1,3 +1,5 @@
+import { ProductGender, ProductSize } from "../../generated/prisma/enums";
+
 export type ProductCategory = "clothes" | "technology" | "others";
 export type ProductsCategory = ProductCategory | "all";
 
@@ -22,8 +24,8 @@ interface BaseProduct {
 
 export interface ClothesProduct extends BaseProduct {
   category: "clothes";
-  sizes: string[];
-  gender: string;
+  sizes: ProductSize[];
+  gender: ProductGender;
   colors: string[];
   type: string;
 }

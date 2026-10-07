@@ -1,5 +1,9 @@
 import type { ProductCategory } from "@/types/product";
 import { z } from "zod";
+import { ProductGender, ProductSize } from "../../../../../generated/prisma/enums";
+
+const sizeSchema = z.enum(ProductSize);
+const genderSchema = z.enum(ProductGender);
 
 export const productFormSchema = z.object({
   title: z
@@ -29,8 +33,8 @@ export const productFormSchema = z.object({
     z.enum(["clothes", "technology", "others"]),
     z.literal(""),
   ]),
-  sizes: z.array(z.string()),
-  gender: z.string(),
+  sizes: z.array(sizeSchema),
+  gender: z.union([genderSchema, z.literal("")]),
   colors: z.array(z.string()),
   type: z.string(),
   brand: z.string(),
