@@ -4,16 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiLock, FiMail, FiShield } from "react-icons/fi";
 import { loginSchema, type LoginFormValues } from "../schemas/login";
 import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { clearPendingCartItem, getPendingCartItem } from "@/features/cart/lib/pending-item";
 import { addCartItem } from "@/features/cart/actions/add-cart-item";
+import { signInDemoAdmin } from "../actions/sign-in-demo-admin";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isDemoAdminLoading, setIsDemoAdminLoading] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -63,6 +65,27 @@ export const LoginForm = () => {
     const destination = from !== "/" ? from : "/";
 
     router.replace(destination);
+  };
+
+  const handleDemoAdminLogin = async () => {
+    setIsDemoAdminLoading(true);
+
+    try {
+      const result = await signInDemoAdmin();
+
+      if (!result.success) {
+        toast.error(result.message);
+        return;
+      }
+
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Error al iniciar sesión como administrador demo:", error);
+      toast.error("No se pudo iniciar la sesión de demostración.");
+    } finally {
+      setIsDemoAdminLoading(false);
+    }
   };
 
   return (
@@ -155,6 +178,25 @@ export const LoginForm = () => {
             Iniciar sesión
           </button>
         </form>
+
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-xs text-slate-400">O BIEN</span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={handleDemoAdminLogin}
+          disabled={isSubmitting || isDemoAdminLoading}
+          className="inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60 sm:h-12"
+        >
+          <FiShield className="size-4" />
+
+          {isDemoAdminLoading
+            ? "Iniciando sesión como adminsitrador..."
+            : "Iniciar sesión como administrador"}
+        </button>
 
         <div className="mt-6 border-t border-slate-200 pt-5 text-center sm:mt-8 sm:pt-6">
           <p className="text-sm text-slate-500">
