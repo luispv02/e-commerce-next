@@ -6,7 +6,7 @@ import { getProductFilters } from "@/lib/product-filter-query";
 import { getOrderBy } from "@/lib/product-query-sort";
 import { ProductResponse, ProductsListResponse } from "@/types/product-response";
 import { slugify } from "../lib/slugify";
-import { ActionResult, CreateProductActionPayload, UpdateProductActionPayload } from "../types/product-actions";
+import { ActionResult, CreateProductActionPayload, UpdateProductActionPayload, UpdateProductStatusPayload } from "../types/product-actions";
 import { CustomError } from "@/lib/custom-error";
 import { deleteCloudinaryImages } from "../actions/delete-cloudinary-images";
 import { areNewImagesValid, isValidImageCount, parseProductData } from "../lib/product-service-helpers";
@@ -246,6 +246,37 @@ export const updateProductService = async (payload: UpdateProductActionPayload):
     return {
       success: false as const,
       message: "No se pudo actualizar el producto"
+    };
+  }
+};
+
+export const updateProductStatusService = async ({ productId, isActive }: UpdateProductStatusPayload): Promise<ActionResult> => {
+  if (!z.uuid().safeParse(productId).success || typeof isActive !== "boolean") {
+    return {
+      success: false,
+      message: "Los datos del producto no son válidos",
+    };
+  }
+
+  try {
+    await prisma.product.update({
+      where: { id: productId },
+      data: {
+        isActive,
+        ...(isActive ? {} : { isFeatured: false }),
+      },
+    });
+
+    return {
+      success: true,
+      message: isActive ? "Producto activado correctamente" : "Producto desactivado correctamente",
+    };
+  } catch (error) {
+    console.error("Error al actualizar el estado del producto", error);
+
+    return {
+      success: false,
+      message: "No se pudo actualizar el estado del producto",
     };
   }
 };

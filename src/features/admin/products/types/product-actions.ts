@@ -21,3 +21,8 @@ export interface ActionResult {
   success: boolean;
   message: string;
 }
+
+export interface UpdateProductStatusPayload {
+  productId: string;
+  isActive: boolean;
+}

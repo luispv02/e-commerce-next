@@ -40,7 +40,7 @@ export const ProductListCard = ({ product }: ProductListCardProps) => {
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <ProductStockBadge stock={product.stock} />
         <p className="text-sm font-bold text-slate-950">{formatPrice(product.price)}</p>
-        <ProductStatusToggle isActive={product.isActive} />
+        <ProductStatusToggle productId={product.id} isActive={product.isActive} />
       </div>
     </article>
   );
