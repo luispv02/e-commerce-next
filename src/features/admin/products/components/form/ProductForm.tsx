@@ -126,7 +126,7 @@ export const ProductForm = ({ mode, product }: ProductFormProps) => {
               />
 
               <ProductVisibility />
-              {mode === "edit" && product && <ProductMetadata productId={product.id} />}
+              {mode === "edit" && product && <ProductMetadata productId={product.id} createdAt={product.createdAt} updatedAt={product.updatedAt} />}
             </div>
           </div>
         </fieldset>

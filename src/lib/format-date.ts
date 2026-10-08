@@ -1,4 +1,4 @@
-export const dateFormatter = (date?: string) => {
+export const dateFormatter = (date?: string | Date) => {
   if (!date) return "-";
 
   return new Date(date).toLocaleString("es-MX", {

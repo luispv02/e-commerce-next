@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ProductActions } from "./ProductActions";
 import { ProductStatusToggle } from "./ProductStatusToggle";
 import { ProductStockBadge } from "./ProductStockBadge";
+import { FiStar } from "react-icons/fi";
 
 interface ProductListCardProps {
   product: Product;
@@ -13,7 +14,7 @@ export const ProductListCard = ({ product }: ProductListCardProps) => {
   const image = product.images[0];
 
   return (
-    <article className="rounded-xl border border-slate-200 p-4">
+    <article className="rounded-xl border border-slate-200 p-3">
       <div className="flex items-start gap-3">
         <div className="relative size-15 shrink-0 overflow-hidden">
           {image && (
@@ -28,10 +29,18 @@ export const ProductListCard = ({ product }: ProductListCardProps) => {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-slate-950">{product.title}</p>
-          <p className="mt-1 text-xs text-slate-500">
-            {product.category}
-          </p>
+          <div className="flex min-w-0 items-start gap-2">
+            {product.isFeatured && (
+              <FiStar
+                className="size-4 shrink-0 fill-current text-amber-400/50 mt-1"
+                aria-label="Producto destacado"
+              />
+            )}
+
+            <p className="line-clamp-2 text-sm font-semibold text-slate-950">
+              {product.title}
+            </p>
+          </div>
         </div>
 
         <ProductActions id={product.id} slug={product.slug} title={product.title} />

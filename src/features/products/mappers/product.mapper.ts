@@ -14,7 +14,7 @@ type PrismaProduct = Prisma.ProductGetPayload<{
 }>;
 
 export const mapProduct = (product: PrismaProduct): Product => {
-  const { id, title, price, description, slug, stock, isFeatured, category, images, isActive, } = product;
+  const { id, title, price, description, slug, stock, isFeatured, category, images, isActive, createdAt, updatedAt } = product;
 
   const baseProduct = {
     id,
@@ -27,6 +27,8 @@ export const mapProduct = (product: PrismaProduct): Product => {
     category,
     images,
     isActive,
+    createdAt,
+    updatedAt
   };
 
   switch (category) {
@@ -35,7 +37,7 @@ export const mapProduct = (product: PrismaProduct): Product => {
         ...baseProduct,
         category: "clothes",
         sizes: product.sizes,
-        gender: product.gender ?? "",
+        gender: product.gender!,
         colors: product.colors,
         type: product.type ?? "",
       };

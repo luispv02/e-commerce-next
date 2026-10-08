@@ -18,9 +18,11 @@ export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
   return (
     <>
       <div className="flex items-center gap-3 px-5 py-6">
-        <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600">
-          <FiShoppingBag className="size-5" />
-        </span>
+        <Link href="/" aria-label="Ir al home">
+          <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600">
+            <FiShoppingBag className="size-5" />
+          </span>
+        </Link>
         <div>
           <p className="text-sm font-semibold">E-Commerce</p>
           <span className="mt-1 inline-flex rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-300">

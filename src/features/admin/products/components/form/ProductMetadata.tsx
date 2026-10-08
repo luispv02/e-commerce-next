@@ -7,12 +7,11 @@ import { dateFormatter } from "@/lib/format-date";
 
 interface ProductMetadataProps {
   productId: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const ProductMetadata = ({ productId, createdAt, updatedAt, }: ProductMetadataProps) => {
-  console.log('createdAt', createdAt)
 
   return (
     <FormSection

@@ -1,8 +1,7 @@
 import { prisma } from "../lib/prisma";
-import { productsResponse } from "../mocks/products";
+import { products } from "./products";
 import type { ProductCategory, ProductGender, ProductSize, Prisma, } from "../../generated/prisma/client";
 
-const products = productsResponse.data.products;
 
 const productData = products.map((product): Prisma.ProductCreateInput => ({
   id: product.id,

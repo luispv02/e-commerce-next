@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ProductActions } from "./ProductActions";
 import { ProductStatusToggle } from "./ProductStatusToggle";
 import { ProductStockBadge } from "./ProductStockBadge";
+import { FiStar } from "react-icons/fi";
 
 interface ProductsTableRowProps {
   product: Product;
@@ -27,6 +28,14 @@ export const ProductsTableRow = ({ product }: ProductsTableRowProps) => {
               />
             )}
           </div>
+
+          {product.isFeatured && (
+            <FiStar
+              className="size-4 shrink-0 fill-current text-amber-400/50"
+              aria-label="Producto destacado"
+            />
+          )}
+
           <p className="truncate text-sm font-semibold text-slate-950">{product.title}</p>
         </div>
       </td>

@@ -20,6 +20,8 @@ interface BaseProduct {
   category: ProductCategory;
   images: ProductImage[];
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ClothesProduct extends BaseProduct {
