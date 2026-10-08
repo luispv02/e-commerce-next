@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import { FiEdit2 } from "react-icons/fi";
+import { DeleteProductButton } from "../DeleteProductButton";
 
 interface ProductActionsProps {
+  id: string;
   slug: string;
+  title: string;
 }
 
-export const ProductActions = ({ slug }: ProductActionsProps) => {
+export const ProductActions = ({ id, slug, title }: ProductActionsProps) => {
   return (
     <div className="flex items- justify-end gap-2">
       <Link
@@ -16,13 +19,11 @@ export const ProductActions = ({ slug }: ProductActionsProps) => {
         <FiEdit2 className="size-3.5" />
       </Link>
 
-      <button
-        type="button"
-        aria-label="Eliminar producto"
+      <DeleteProductButton
+        productId={id}
+        productTitle={title}
         className="cursor-pointer inline-flex size-8 items-center justify-center rounded-lg bg-red-50 text-red-500 transition hover:bg-red-100"
-      >
-        <FiTrash2 className="size-3.5" />
-      </button>
+      />
     </div>
   );
 };

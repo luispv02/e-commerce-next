@@ -105,9 +105,9 @@ export const ProductForm = ({ mode, product }: ProductFormProps) => {
   return (
     <FormProvider {...form}>
       <form onSubmit={handleFormSubmit} className="mx-auto w-full max-w-350 space-y-6">
-        <fieldset disabled={isSubmitting} className={clsx("space-y-6 transition-opacity", isSubmitting && "opacity-60 pointer-events-none",)} >
-          <ProductFormHeader mode={mode} isSubmitting={isSubmitting} />
+        <ProductFormHeader mode={mode} isSubmitting={isSubmitting} product={product} />
 
+        <fieldset disabled={isSubmitting} className={clsx("space-y-6 transition-opacity", isSubmitting && "opacity-60 pointer-events-none",)} >
           <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:gap-6">
             <div className="space-y-4">
               <ProductGeneralInfo categoryLocked={mode === "edit"} />

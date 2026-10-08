@@ -43,7 +43,7 @@ export const ProductsTableRow = ({ product }: ProductsTableRowProps) => {
         <ProductStatusToggle isActive={product.isActive} />
       </td>
       <td className="py-3">
-        <ProductActions slug={product.slug} />
+        <ProductActions id={product.id} slug={product.slug} title={product.title} />
       </td>
     </tr>
   );

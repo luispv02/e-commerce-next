@@ -1,13 +1,18 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { FiArrowLeft, FiLoader, FiSave, FiTrash2 } from "react-icons/fi";
+import { DeleteProductButton } from "../DeleteProductButton";
 
 interface ProductFormHeaderProps {
   mode: "create" | "edit";
   isSubmitting: boolean;
+  product?: {
+    id: string;
+    title: string;
+  };
 }
 
-export const ProductFormHeader = ({ mode, isSubmitting }: ProductFormHeaderProps) => {
+export const ProductFormHeader = ({ mode, isSubmitting, product }: ProductFormHeaderProps) => {
   const isEdit = mode === "edit";
 
   return (
@@ -33,15 +38,16 @@ export const ProductFormHeader = ({ mode, isSubmitting }: ProductFormHeaderProps
           Volver a productos
         </Link>
 
-        {isEdit && (
-          <button
-            type="button"
+        {isEdit && product && (
+          <DeleteProductButton
+            productId={product.id}
+            productTitle={product.title}
             disabled={isSubmitting}
             className="cursor-pointer inline-flex h-10 items-center gap-2 rounded-lg border border-red-200 bg-white px-3 text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <FiTrash2 className="size-4" />
             Eliminar
-          </button>
+          </DeleteProductButton>
         )}
 
         <button

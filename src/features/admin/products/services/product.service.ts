@@ -10,6 +10,7 @@ import { ActionResult, CreateProductActionPayload, UpdateProductActionPayload } 
 import { CustomError } from "@/lib/custom-error";
 import { deleteCloudinaryImages } from "../actions/delete-cloudinary-images";
 import { areNewImagesValid, isValidImageCount, parseProductData } from "../lib/product-service-helpers";
+import { z } from "zod";
 
 
 interface getAdminProductsParams {
@@ -245,6 +246,48 @@ export const updateProductService = async (payload: UpdateProductActionPayload):
     return {
       success: false as const,
       message: "No se pudo actualizar el producto"
+    };
+  }
+};
+
+export const deleteProductService = async (productId: string): Promise<ActionResult> => {
+
+  if (!z.uuid().safeParse(productId).success) {
+    return {
+      success: false,
+      message: "El producto no es válido",
+    };
+  }
+  try {
+    const deletedProduct = await prisma.product.delete({
+      where: { id: productId },
+      select: {
+        images: {
+          select: { publicId: true },
+        },
+      },
+    });
+
+    const publicIds = deletedProduct.images.map((image) => image.publicId);
+
+    if (publicIds.length > 0) {
+      try {
+        await deleteCloudinaryImages(publicIds);
+      } catch (error) {
+        console.error("No se pudieron borrar las imágenes de Cloudinary", error);
+      }
+    }
+
+    return {
+      success: true,
+      message: "Producto eliminado correctamente",
+    };
+  } catch (error) {
+    console.error("Error al eliminar el producto", error);
+
+    return {
+      success: false,
+      message: "No se pudo eliminar el producto",
     };
   }
 };
