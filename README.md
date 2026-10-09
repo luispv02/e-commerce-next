@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# E-Commerce Next
 
-First, run the development server:
+Tienda en línea desarrollada con **Next.js 16 (App Router), React 19, TypeScript, Prisma 7 y PostgreSQL**. Incluye catálogo con filtros, carrito de compras, checkout, historial de pedidos y panel de administración.
+
+## Stack tecnológico
+
+| Área | Tecnología |
+|---|---|
+| Framework | Next.js 16 |
+| Librería de UI | React 19 |
+| Lenguaje | TypeScript |
+| Estilos | Tailwind CSS 4 |
+| Base de datos | PostgreSQL 16 |
+| ORM | Prisma 7 (`@prisma/adapter-pg`) |
+| Autenticación | Better Auth |
+| Formularios y validación | React Hook Form, Zod |
+| Almacenamiento de imágenes | Cloudinary |
+| Gráficos | Recharts |
+| Animaciones | Motion |
+| Notificaciones | Sonner |
+| Entorno de desarrollo | Docker Compose |
+
+## Funcionalidades
+
+- Catálogo de productos con filtros, ordenamiento y paginación.
+- Detalle de productos con galería de imágenes y variantes.
+- Carrito asociado al usuario autenticado.
+- Checkout con dirección de envío y creación de pedidos.
+- Historial de pedidos.
+- Panel de administración con dashboard y gestión de productos.
+- Autenticación y control de acceso por roles.
+- Gestión de imágenes mediante Cloudinary.
+
+> El checkout es demostrativo y no integra una pasarela de pago real.
+
+## Instalación
+
+### 1. Instalar dependencias
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configurar las variables de entorno
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copia la plantilla:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp env.template .env
+```
 
-## Learn More
+Configura las credenciales de Cloudinary, el secreto de Better Auth y las demás variables necesarias.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Iniciar PostgreSQL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker compose up -d
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Ejecutar las migraciones
 
-## Deploy on Vercel
+```bash
+pnpm exec prisma migrate deploy
+pnpm exec prisma generate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Cargar productos de ejemplo (opcional)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm seed
+```
+
+> El seed reemplaza los productos existentes. No crea usuarios ni modifica pedidos.
+
+### 6. Iniciar la aplicación
+
+```bash
+pnpm dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000).
+
+## Rutas principales
+
+| Ruta | Descripción |
+|---|---|
+| `/` | Página de inicio |
+| `/products` | Catálogo de productos |
+| `/products/[slug]` | Detalle del producto |
+| `/cart` | Carrito de compras |
+| `/checkout` | Confirmación del pedido |
+| `/orders` | Historial de pedidos |
+| `/profile` | Perfil de usuario |
+| `/login` | Inicio de sesión |
+| `/register` | Registro |
+| `/admin` | Dashboard administrativo |
+| `/admin/products` | Gestión de productos |
+
