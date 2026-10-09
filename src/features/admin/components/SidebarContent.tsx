@@ -2,7 +2,8 @@ import { authClient } from "@/lib/auth-client";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiBox, FiGrid, FiLogOut, FiShoppingBag } from "react-icons/fi";
+import { useState } from "react";
+import { FiBox, FiGrid, FiLoader, FiLogOut, FiShoppingBag } from "react-icons/fi";
 import { toast } from "sonner";
 
 interface SidebarContentProps {
@@ -19,18 +20,31 @@ const navigation = [
 export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
 
   const router = useRouter()
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
-    const { error } = await authClient.signOut();
-
-    if (error) {
-      toast.error(error.message ?? "No se pudo cerrar la sesión.");
-
+    if (isLoggingOut) {
       return;
     }
 
-    router.replace("/");
-    router.refresh();
+    setIsLoggingOut(true);
+
+    try {
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        toast.error(error.message ?? "No se pudo cerrar la sesión.");
+
+        return;
+      }
+
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "No se pudo cerrar la sesión.");
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return (
@@ -76,17 +90,23 @@ export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
           </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-medium">Admin</p>
-            <p className="truncate text-xs text-slate-400">admin@example.com</p>
+            <p className="truncate text-xs text-slate-400">admin@demo.com</p>
           </div>
         </div>
 
         <button
           type="button"
           onClick={handleLogout}
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 hover:bg-slate-800 cursor-pointer"
+          disabled={isLoggingOut}
+          aria-busy={isLoggingOut}
+          className="inline-flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 hover:bg-slate-800 disabled:cursor-wait disabled:opacity-70"
         >
-          <FiLogOut className="size-4" />
-          Cerrar sesión
+          {isLoggingOut ? (
+            <FiLoader className="size-4 animate-spin" />
+          ) : (
+            <FiLogOut className="size-4" />
+          )}
+          {isLoggingOut ? "Cerrando sesión..." : "Cerrar sesión"}
         </button>
       </div>
     </>
