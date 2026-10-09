@@ -1,6 +1,9 @@
+import { authClient } from "@/lib/auth-client";
 import clsx from "clsx";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FiBox, FiGrid, FiLogOut, FiShoppingBag } from "react-icons/fi";
+import { toast } from "sonner";
 
 interface SidebarContentProps {
   pathname: string;
@@ -14,6 +17,21 @@ const navigation = [
 
 
 export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
+
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    const { error } = await authClient.signOut();
+
+    if (error) {
+      toast.error(error.message ?? "No se pudo cerrar la sesión.");
+
+      return;
+    }
+
+    router.replace("/");
+    router.refresh();
+  };
 
   return (
     <>
@@ -64,7 +82,8 @@ export const SidebarContent = ({ pathname, onClose }: SidebarContentProps) => {
 
         <button
           type="button"
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 hover:bg-slate-800"
+          onClick={handleLogout}
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 hover:bg-slate-800 cursor-pointer"
         >
           <FiLogOut className="size-4" />
           Cerrar sesión

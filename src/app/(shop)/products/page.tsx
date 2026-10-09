@@ -7,6 +7,12 @@ import { ProductsCategory } from "@/types/product";
 import { getProducts } from "@/features/products/services/product.service";
 import { parseProductSearchParams } from "@/features/products/lib/parse-product-search-params";
 import { EmptyProducts } from "@/features/products/components/EmptyProducts";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Productos",
+  description: "Explora nuestro catálogo de ropa, tecnología y otros productos."
+};
 
 interface ProductsPageProps {
   searchParams: Promise<{

@@ -5,6 +5,7 @@ import type { ProductFilters } from "../types/filters";
 import { getProductFilters } from "@/lib/product-filter-query";
 import { getOrderBy } from "@/lib/product-query-sort";
 import { getPagination } from "@/lib/get-product-pagination";
+import { cache } from "react";
 
 interface GetProductsParams {
   filters: ProductFilters;
@@ -53,7 +54,7 @@ export const getProducts = async ({ filters }: GetProductsParams): Promise<Produ
   }
 }
 
-export const getProductBySlug = async (slug: string): Promise<ProductResponse | null> => {
+export const getProductBySlug = cache(async (slug: string): Promise<ProductResponse | null> => {
 
   const product = await prisma.product.findFirst({
     where: {
@@ -79,4 +80,4 @@ export const getProductBySlug = async (slug: string): Promise<ProductResponse | 
     ok: true,
     product: mapProduct(product),
   };
-}
+})

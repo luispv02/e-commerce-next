@@ -19,7 +19,7 @@ export const Header = async ({ cartItemCount }: HeaderProps) => {
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-50">
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
-        <div className="h-16 flex justify-between items-center">
+        <div className="h-14 md:h-16 flex justify-between items-center">
 
           <Link href="/" className="justify-self-start text-lg font-semibold tracking-tight text-slate-950">
             E-Commerce
