@@ -1,10 +1,10 @@
 
 import { Prisma } from "../../../../generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import type { ProductImage, ProductVariant } from "@/types/product";
-import type { Order, OrderItem, ShippingAddress } from "../types/orders";
+import type { Order } from "../types/orders";
 import type { ShippingAddressFormData } from "@/features/checkout/schemas/address";
 import { CustomError } from "@/lib/custom-error";
+import { mapOrder } from "../mappers/order.mapper";
 
 interface CreateOrderServiceData {
   userId: string;
@@ -115,27 +115,21 @@ export const getOrdersService = async (userId: string): Promise<Order[]> => {
     },
   });
 
-  return orders.map((order) => ({
-    id: order.id,
-    userId: order.userId,
-    status: order.status,
-    shippingAddress: order.shippingAddress as unknown as ShippingAddress,
-    total: Number(order.total),
-    createdAt: order.createdAt.toISOString(),
-    updatedAt: order.updatedAt.toISOString(),
-    items: order.items.map(
-      (item): OrderItem => ({
-        id: item.id,
-        orderId: item.orderId,
-        productId: item.productId,
-        title: item.title,
-        description: item.description,
-        images: item.images as unknown as ProductImage[],
-        quantity: item.quantity,
-        pricePaid: Number(item.pricePaid),
-        variants: item.variants ? (item.variants as unknown as ProductVariant) : undefined,
-      }),
-    ),
-  }));
+  return orders.map(mapOrder);
+};
+
+export const getOrderByIdService = async (orderId: string, userId: string): Promise<Order | null> => {
+  const order = await prisma.order.findFirst({
+    where: { id: orderId, userId },
+    include: {
+      items: true,
+    },
+  });
+
+  if (!order) {
+    return null;
+  }
+
+  return mapOrder(order);
 };
 
