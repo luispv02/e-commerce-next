@@ -6,6 +6,7 @@ import type { Order } from "../types/orders";
 import { OrderItem } from "./OrderItem";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 import { PayOrderButton } from "./PayOrderButton";
+import { TestPaymentNotice } from "@/components/ui/TestPaymentNotice";
 
 interface OrderDetailProps {
   order: Order;
@@ -38,10 +39,20 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
           </p>
         </div>
 
-        <div className="hidden sm:block">
-          <PayOrderButton />
-        </div>
+        {order.status === "PENDING" && (
+          <div className="hidden sm:block">
+            <PayOrderButton orderId={order.id} />
+          </div>
+        )}
       </header>
+
+      {order.status === "PENDING" && (
+        <div className="flex justify-end">
+          <div className="w-full max-w-md">
+            <TestPaymentNotice />
+          </div>
+        </div>
+      )}
 
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <div className="border-b border-slate-200 bg-slate-50 px-4 py-3">
@@ -80,9 +91,12 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
         </address>
       </section>
 
-      <div className="sm:hidden">
-        <PayOrderButton />
-      </div>
+
+      {order.status === "PENDING" && (
+        <div className="sm:hidden">
+          <PayOrderButton orderId={order.id} />
+        </div>
+      )}
     </section>
   );
 };

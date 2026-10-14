@@ -5,6 +5,8 @@ import type { Order } from "../types/orders";
 import type { ShippingAddressFormData } from "@/features/checkout/schemas/address";
 import { CustomError } from "@/lib/custom-error";
 import { mapOrder } from "../mappers/order.mapper";
+import { stripe } from "@/lib/stripe";
+import { ProductImage } from "@/types/product";
 
 interface CreateOrderServiceData {
   userId: string;
@@ -60,7 +62,7 @@ export const createOrderService = async ({ userId, shippingAddress }: CreateOrde
       data: {
         userId,
         total,
-        status: "PAID",
+        status: "PENDING",
         shippingAddress: shippingAddress as Prisma.InputJsonValue,
         items: {
           create: cart.items.map((item) => ({
@@ -133,3 +135,94 @@ export const getOrderByIdService = async (orderId: string, userId: string): Prom
   return mapOrder(order);
 };
 
+
+export const createOrderCheckoutSessionService = async (orderId: string, userId: string) => {
+  const order = await prisma.order.findFirst({
+    where: {
+      id: orderId,
+      userId,
+    },
+    include: {
+      items: true,
+    }
+  })
+
+
+  if (order?.status !== "PENDING") {
+    throw new CustomError('Esta orden no está disponible para pagar.', 400);
+  }
+
+  if (order.items.length === 0) {
+    throw new CustomError('La orden no tiene productos', 400);
+  }
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+  if (!appUrl) {
+    throw new Error("Falta configurar NEXT_PUBLIC_APP_URL.");
+  }
+
+  // Reuse the existing session if it is still open.
+  if (order.stripeSessionId) {
+    const existingSession = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
+
+    if (existingSession.status === "open" && existingSession.url) {
+      return existingSession.url;
+    }
+
+    if (existingSession.status === "complete") {
+      throw new CustomError("La sesión de pago ya fue completada. Verifica el estado de tu orden.", 400);
+    }
+  }
+
+  const checkoutSession = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    client_reference_id: order.id,
+
+    line_items: order.items.map((item) => {
+      const images = item.images as ProductImage[] | null;
+      const imageUrl = images?.[0]?.url;
+
+      return {
+        quantity: item.quantity,
+        price_data: {
+          currency: "mxn",
+          unit_amount: Math.round(Number(item.pricePaid) * 100),
+          product_data: {
+            name: item.title,
+            ...(imageUrl?.startsWith("https://") ? { images: [imageUrl] } : {}),
+          }
+        }
+      }
+    }),
+    metadata: {
+      orderId: order.id,
+      userId,
+    },
+    payment_intent_data: {
+      metadata: {
+        orderId: order.id,
+        userId
+      }
+    },
+    success_url: `${appUrl}/orders/${order.id}?payment=success`,
+    cancel_url: `${appUrl}/orders/${order.id}?payment=cancelled`,
+    expires_at: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24hrs
+  })
+
+
+  if (!checkoutSession.url) {
+    throw new Error("Stripe no devolvió una URL de pago.");
+  }
+
+  await prisma.order.update({
+    where: {
+      id: order.id,
+    },
+    data: {
+      stripeSessionId: checkoutSession.id,
+    },
+  });
+
+  return checkoutSession.url;
+}

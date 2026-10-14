@@ -2,6 +2,7 @@
 import { formatPrice } from "@/lib/format-price";
 import { PaymentSection } from "./PaymentSection";
 import { ShippingAddressFormData } from "../schemas/address";
+import { TestPaymentNotice } from "@/components/ui/TestPaymentNotice";
 
 interface OrderSummaryProps {
   itemCount: number;
@@ -38,6 +39,10 @@ export const OrderSummary = ({ itemCount, subtotal, shippingAddress }: OrderSumm
             <p className="text-2xl font-bold tracking-tight text-slate-950">
               {formatPrice(subtotal)}
             </p>
+          </div>
+
+          <div className="mt-5">
+            <TestPaymentNotice />
           </div>
 
           <PaymentSection shippingAddress={shippingAddress} />

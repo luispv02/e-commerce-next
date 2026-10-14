@@ -177,6 +177,9 @@ model Order {
   status          OrderStatus @default(PENDING)
   shippingAddress Json
 
+  stripeSessionId String?   @unique
+  paidAt          DateTime?
+
   user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   items OrderItem[]
 
