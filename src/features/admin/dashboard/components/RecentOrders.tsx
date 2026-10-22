@@ -1,8 +1,25 @@
 import { formatPrice } from "@/lib/format-price";
 import type { RecentOrder } from "../types/dashboard";
+import { dateFormatter } from "@/lib/format-date";
+import clsx from "clsx";
 
 interface RecentOrdersProps {
   orders: RecentOrder[];
+}
+
+const ORDER_STATUS = {
+  PAID: {
+    label: "Pagada",
+    className: "text-emerald-500"
+  },
+  PENDING: {
+    label: "Pendiente",
+    className: "text-amber-500"
+  },
+  CANCELLED: {
+    label: "Cancelada",
+    className: "text-rose-500"
+  }
 }
 
 export const RecentOrders = ({ orders }: RecentOrdersProps) => {
@@ -21,7 +38,7 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
         </div>
       ) : (
         <>
-
+          {/* Mobile  */}
           <div className="space-y-3 lg:hidden">
             {orders.map((order) => {
               return (
@@ -32,10 +49,13 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
                         {order.id.slice(0, 8)}
                       </p>
                       <p className="mt-1 truncate text-xs text-slate-500">{order.customerEmail}</p>
-                      {/* <p className="mt-1 text-xs text-slate-400">{formatOrderDate(order.date)}</p> */}
+                      <p className="mt-1 text-xs text-slate-400">{dateFormatter(order.date)}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-slate-950">{formatPrice(order.total)}</p>
+                      <div className={clsx('text-xs mt-1', ORDER_STATUS[order.status].className)}>
+                        {ORDER_STATUS[order.status].label}
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -43,6 +63,7 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
             })}
           </div>
 
+          {/* Desktop  */}
           <div className="hidden overflow-x-auto lg:block">
             <table className="w-full text-left text-sm">
               <thead>
@@ -50,6 +71,7 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
                   <th className="pb-3 pr-3 font-medium"># Pedido</th>
                   <th className="pb-3 pr-3 font-medium">Cliente</th>
                   <th className="pb-3 pr-3 font-medium">Fecha</th>
+                  <th className="pb-3 pr-3 font-medium">Estado</th>
                   <th className="pb-3 pr-3 font-medium">Total</th>
                 </tr>
               </thead>
@@ -62,7 +84,10 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
                       </td>
                       <td className="py-3 pr-3 text-slate-600">{order.customerEmail}</td>
                       <td className="py-3 pr-3 whitespace-nowrap text-slate-500">
-                        {/* {formatOrderDate(order.date)} */}
+                        {dateFormatter(order.date)}
+                      </td>
+                      <td className={clsx('py-3 pr-3', ORDER_STATUS[order.status].className)}>
+                        {ORDER_STATUS[order.status].label}
                       </td>
                       <td className="py-3 pr-3 font-semibold text-slate-950">
                         {formatPrice(order.total)}

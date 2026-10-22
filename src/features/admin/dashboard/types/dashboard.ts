@@ -1,3 +1,5 @@
+import { OrderStatus } from "../../../../../generated/prisma/enums";
+
 export type DashboardPeriod = "7d" | "30d" | "3m" | "6m" | "1y";
 
 export type DashboardGroupBy = "day" | "week" | "month";
@@ -22,6 +24,7 @@ export interface RecentOrder {
   customerName: string;
   date: Date;
   total: number;
+  status: OrderStatus;
 }
 
 export interface TopProduct {

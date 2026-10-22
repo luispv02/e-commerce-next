@@ -9,7 +9,11 @@ const getOrdersSummary = async (startDate: Date, endDate: Date) => {
   const [orders, orderItems] = await Promise.all([
     prisma.order.aggregate({
       where: {
-        createdAt: { gte: startDate, lte: endDate },
+        status: "PAID",
+        paidAt: {
+          gte: startDate,
+          lte: endDate
+        },
       },
       _sum: { total: true },
       _count: { id: true },
@@ -18,7 +22,11 @@ const getOrdersSummary = async (startDate: Date, endDate: Date) => {
     prisma.orderItem.aggregate({
       where: {
         order: {
-          createdAt: { gte: startDate, lte: endDate },
+          status: "PAID",
+          paidAt: {
+            gte: startDate,
+            lte: endDate
+          },
         },
       },
       _sum: { quantity: true },
@@ -52,17 +60,11 @@ const getSalesTimeline = async ({ startDate, endDate, groupBy }: { startDate: Da
 
   if (groupBy === "day") {
     selectExpr = Prisma.sql`
-      TO_CHAR(
-        "createdAt",
-        'YYYY-MM-DD'
-      ) AS "id"
+      TO_CHAR("paidAt", 'YYYY-MM-DD') AS "id"
     `;
 
     groupByExpr = Prisma.sql`
-      TO_CHAR(
-        "createdAt",
-        'YYYY-MM-DD'
-      )
+      TO_CHAR("paidAt", 'YYYY-MM-DD')
     `;
 
     orderByExpr = Prisma.sql`
@@ -70,23 +72,13 @@ const getSalesTimeline = async ({ startDate, endDate, groupBy }: { startDate: Da
     `;
   } else if (groupBy === "week") {
     selectExpr = Prisma.sql`
-      EXTRACT(
-        ISOYEAR FROM "createdAt"
-      )::int AS year,
-      
-      EXTRACT(
-        WEEK FROM "createdAt"
-      )::int AS week
+      EXTRACT(ISOYEAR FROM "paidAt")::int AS year,
+      EXTRACT(WEEK FROM "paidAt")::int AS week
     `;
 
     groupByExpr = Prisma.sql`
-      EXTRACT(
-        ISOYEAR FROM "createdAt"
-      ),
-
-      EXTRACT(
-        WEEK FROM "createdAt"
-      )
+      EXTRACT(ISOYEAR FROM "paidAt"),
+      EXTRACT(WEEK FROM "paidAt")
     `;
 
     orderByExpr = Prisma.sql`
@@ -95,23 +87,13 @@ const getSalesTimeline = async ({ startDate, endDate, groupBy }: { startDate: Da
     `;
   } else if (groupBy === "month") {
     selectExpr = Prisma.sql`
-      EXTRACT(
-        YEAR FROM "createdAt"
-      )::int AS year,
-
-      EXTRACT(
-        MONTH FROM "createdAt"
-      )::int AS month
+      EXTRACT(YEAR FROM "paidAt")::int AS year,
+      EXTRACT(MONTH FROM "paidAt")::int AS month
     `;
 
     groupByExpr = Prisma.sql`
-      EXTRACT(
-        YEAR FROM "createdAt"
-      ),
-
-      EXTRACT(
-        MONTH FROM "createdAt"
-      )
+      EXTRACT(YEAR FROM "paidAt"),
+      EXTRACT( MONTH FROM "paidAt")
     `;
 
     orderByExpr = Prisma.sql`
@@ -136,8 +118,9 @@ const getSalesTimeline = async ({ startDate, endDate, groupBy }: { startDate: Da
       SUM(total)::float AS revenue
     FROM "Order"
     WHERE
-      "createdAt" >= ${startDate}
-      AND "createdAt" <= ${endDate}
+      "status" = 'PAID'
+      AND "paidAt" >= ${startDate}
+      AND "paidAt" <= ${endDate}
     GROUP BY
       ${groupByExpr}
     ORDER BY
@@ -183,26 +166,21 @@ const getTopProducts = async (startDate: Date, endDate: Date) => {
       SELECT
         oi."productId" AS id,
         MAX(oi.title) AS name,
-        SUM(
-          oi.quantity
-        )::int AS units,
-        SUM(
-          oi.quantity * oi."pricePaid"
-        )::numeric AS revenue,
+        SUM(oi.quantity)::int AS units,
+        SUM(oi.quantity * oi."pricePaid")::numeric AS revenue,
         MAX((
           SELECT pi.url
           FROM product_images pi
-          WHERE
-            pi."productId" =
-              oi."productId"
+          WHERE pi."productId" = oi."productId"
           LIMIT 1
         )) AS image
       FROM "OrderItem" oi
       INNER JOIN "Order" o
         ON o.id = oi."orderId"
       WHERE
-        o."createdAt" >= ${startDate}
-        AND o."createdAt" <= ${endDate}
+        o.status = 'PAID'
+        AND o."paidAt" >= ${startDate}
+        AND o."paidAt" <= ${endDate}
       GROUP BY
         oi."productId"
       ORDER BY
@@ -301,6 +279,7 @@ export const getDashboardData = async (period: DashboardPeriod = "7d") => {
       customerName: order.user.name ?? null,
       date: order.createdAt,
       total: Number(order.total),
+      status: order.status,
     })),
     topProducts: topProducts.map((product) => ({
       ...product,
