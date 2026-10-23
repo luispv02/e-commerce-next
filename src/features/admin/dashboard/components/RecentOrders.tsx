@@ -1,26 +1,12 @@
 import { formatPrice } from "@/lib/format-price";
 import type { RecentOrder } from "../types/dashboard";
 import { dateFormatter } from "@/lib/format-date";
-import clsx from "clsx";
+import { AdminOrderStatusBadge } from "../../orders/components/OrderStatusBadge";
 
 interface RecentOrdersProps {
   orders: RecentOrder[];
 }
 
-const ORDER_STATUS = {
-  PAID: {
-    label: "Pagada",
-    className: "text-emerald-500"
-  },
-  PENDING: {
-    label: "Pendiente",
-    className: "text-amber-500"
-  },
-  CANCELLED: {
-    label: "Cancelada",
-    className: "text-rose-500"
-  }
-}
 
 export const RecentOrders = ({ orders }: RecentOrdersProps) => {
 
@@ -53,8 +39,8 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-slate-950">{formatPrice(order.total)}</p>
-                      <div className={clsx('text-xs mt-1', ORDER_STATUS[order.status].className)}>
-                        {ORDER_STATUS[order.status].label}
+                      <div className="text-xs mt-1">
+                        <AdminOrderStatusBadge status={order.status} />
                       </div>
                     </div>
                   </div>
@@ -86,8 +72,8 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
                       <td className="py-3 pr-3 whitespace-nowrap text-slate-500">
                         {dateFormatter(order.date)}
                       </td>
-                      <td className={clsx('py-3 pr-3', ORDER_STATUS[order.status].className)}>
-                        {ORDER_STATUS[order.status].label}
+                      <td className="py-3 pr-3">
+                        <AdminOrderStatusBadge status={order.status} />
                       </td>
                       <td className="py-3 pr-3 font-semibold text-slate-950">
                         {formatPrice(order.total)}

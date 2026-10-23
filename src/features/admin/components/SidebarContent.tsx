@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiBox, FiGrid, FiLoader, FiLogOut, FiShoppingBag } from "react-icons/fi";
+import { LuShoppingCart } from "react-icons/lu";
 import { toast } from "sonner";
 
 interface SidebarContentProps {
@@ -13,7 +14,8 @@ interface SidebarContentProps {
 
 const navigation = [
   { href: "/admin", label: "Dashboard", icon: FiGrid },
-  { href: "/admin/products", label: "Productos", icon: FiBox }
+  { href: "/admin/products", label: "Productos", icon: FiBox },
+  { href: "/admin/orders", label: "Pedidos", icon: LuShoppingCart }
 ];
 
 
