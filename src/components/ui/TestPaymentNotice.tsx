@@ -60,7 +60,7 @@ export const TestPaymentNotice = () => {
 
           <div className="mt-2">
             <p className="text-xs text-blue-800">Vencimiento: cualquier fecha futura</p>
-            <p className="text-xs text-blue-800">CVC: 3 dígitos cualquier.</p>
+            <p className="text-xs text-blue-800">CVC: 3 dígitos cualquiera</p>
           </div>
         </div>
       </div>

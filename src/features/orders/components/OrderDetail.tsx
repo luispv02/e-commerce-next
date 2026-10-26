@@ -35,7 +35,7 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
           </div>
           <p className="mt-1 break-all text-sm text-slate-500">{order.id}</p>
           <p className="mt-1 text-sm text-slate-500">
-            {dateFormatter(order.createdAt)}
+            {dateFormatter(order.createdAt, true)}
           </p>
         </div>
 
